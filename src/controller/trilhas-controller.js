@@ -28,3 +28,5 @@ const trilhasController = (app, dbTrilhas) => {
     }
   });
 };
+
+export default trilhasController;
