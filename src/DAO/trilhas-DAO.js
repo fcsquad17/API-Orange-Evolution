@@ -37,3 +37,5 @@ getById = (id) => {
     );
   });
 };
+
+export default TrilhasDAO;
