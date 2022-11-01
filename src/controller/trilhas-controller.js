@@ -1,3 +1,5 @@
+import TrilhasDAO from "../DAO/trilhas-DAO.js";
+
 const trilhasController = (app, dbTrilhas) => {
   const trilhasDAO = new TrilhasDAO(dbTrilhas);
 
