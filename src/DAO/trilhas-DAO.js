@@ -36,5 +36,13 @@ class TrilhasDAO {
       );
     });
   };
+
+  _verifyId = async (id) => {
+    const trilha = await this.getById(id);
+    if (trilha.id === undefined) {
+      throw new Error(`Trilha de id ${id} não encontrado.`);
+    }
+    return trilha;
+  };
 }
 export default TrilhasDAO;
