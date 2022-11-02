@@ -41,6 +41,10 @@ const usersController = (app, dbUsers) => {
       });
     }
   });
+
+  app.post("/usuarios", async (req, res) => {
+    const body = req.body;
+  });
 };
 
 export default usersController;
