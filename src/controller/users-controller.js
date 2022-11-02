@@ -48,11 +48,68 @@ const usersController = (app, dbUsers) => {
     try {
       if (body) {
         const newUser = new User(...Object.values(body));
-        res.status(201).json(await UsersDAO.postUser(newUser));
+        res.status(201).json(await usersDAO.postUser(newUser));
       }
     } catch (e) {
       res.status(400).json({
         msg: e.message,
+        error: true,
+      });
+    }
+  });
+
+  app.put("/usuarios/id/:id", async (req, res) => {
+    const id = req.params.id;
+    const body = req.body;
+
+    try {
+      if (body && id) {
+        const userUpdated = new User(...Object.values(body));
+        await usersDAO._verifyId(id);
+        const updateUser = await usersDAO.putUser(id, userUpdated);
+        res.status(200).json(updateUser);
+      }
+    } catch (e) {
+      res.status(400).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
+  app.delete("/usuarios/id/:id", async (req, res) => {
+    const id = req.params.id;
+
+    try {
+      await usersDAO._verifyId(id);
+      const deleteUser = await usersDAO.deleteUser(id);
+      res.status(201).json(deleteUser);
+    } catch (e) {
+      res.status(400).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
+  app.post("/usuarios/login", async (req, res) => {
+    const { email, senha } = req.body;
+
+    try {
+      const login = await usersDAO.getByEmail(email);
+      if (email !== login.usuario.EMAIL || senha !== login.usuario.SENHA) {
+        res.status(400).json({
+          msg: "Email ou senha inválido!",
+          error: true,
+        });
+      }
+      res.status(200).json({
+        usuario: login.usuario,
+        msg: `Usuario ${login.usuario.NOME_COMPLETO} logado!`,
+      });
+    } catch (e) {
+      res.status(400).json({
+        msg: "Email ou senha inválido!",
         error: true,
       });
     }
