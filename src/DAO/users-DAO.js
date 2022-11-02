@@ -136,5 +136,14 @@ class UsersDAO {
     }
     return usuario;
   };
+
+  _repeatedEmail = async (email) => {
+    const usuario = await this.getByEmail(email);
+    if (usuario.usuario === undefined) {
+      return true;
+    } else {
+      throw new Error(`Email já está cadastrado.`);
+    }
+  };
 }
 export default UsersDAO;
