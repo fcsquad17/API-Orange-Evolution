@@ -21,7 +21,7 @@ class TrilhasDAO {
   getById = (id) => {
     return new Promise((resolve, reject) => {
       this.dbTrilhas.get(
-        "SELECT * FROM TRILHAS WHERE ID = ?",
+        "SELECT * FROM TRILHAS WHERE ID_TRILHA = ?",
         id,
         (error, row) => {
           if (error) {
@@ -39,7 +39,7 @@ class TrilhasDAO {
 
   _verifyId = async (id) => {
     const trilha = await this.getById(id);
-    if (trilha.id === undefined) {
+    if (trilha.trilha === undefined) {
       throw new Error(`Trilha de id ${id} não encontrado.`);
     }
     return trilha;
