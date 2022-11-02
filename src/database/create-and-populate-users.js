@@ -12,15 +12,16 @@ CREATE TABLE IF NOT EXISTS "USUARIOS" (
     "EMAIL" VARCHAR(100),
     "SENHA" VARCHAR(100),
     "ID_TRILHAS" INTEGER,
+    "ADMIN" INTEGER, 
     FOREIGN KEY (ID_TRILHAS) REFERENCES TRILHAS(ID_TRILHA)
   );`;
 
 const ADD_USUARIOS_DATA = `
-INSERT INTO "USUARIOS" (NOME_COMPLETO, EMAIL, SENHA, ID_TRILHAS)
+INSERT INTO "USUARIOS" (NOME_COMPLETO, EMAIL, SENHA, ID_TRILHAS, ADMIN)
 VALUES 
-    ('Carlos Alberto Albuquerque', 'carlos.alb12@gmail.com' , '@12345679', 1),
-    ('Olívia Ribeiro Ferreira', 'olivia.rib1@outlook.com' , '@12345679', 2),
-    ('Luiz Rodrigo Lima Mendes', 'luiz.rodrigo223@gmail.com' , '@12345679', 3)
+    ('Carlos Alberto Albuquerque', 'carlos.alb12@gmail.com' , '@12345679', 1, 0),
+    ('Olívia Ribeiro Ferreira', 'olivia.rib1@outlook.com' , '@12345679', 2, 0),
+    ('Luiz Rodrigo Lima Mendes', 'luiz.rodrigo223@gmail.com' , '@12345679', 0, 1)
 `;
 
 function criaTabelaUsr() {
