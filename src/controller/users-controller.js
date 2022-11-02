@@ -1,5 +1,6 @@
 import UsersDAO from "../DAO/users-DAO.js";
 import Users from "../model/Users.js";
+import validate from "../service/validate.js";
 
 const usersController = (app, dbUsers) => {
   const usersDAO = new UsersDAO(dbUsers);
@@ -47,7 +48,7 @@ const usersController = (app, dbUsers) => {
     const body = req.body;
 
     try {
-      if (body) {
+      if (validate(...Object.values(body))) {
         const newUser = new Users(...Object.values(body));
         res.status(201).json(await usersDAO.postUser(newUser));
       }
@@ -64,9 +65,9 @@ const usersController = (app, dbUsers) => {
     const body = req.body;
 
     try {
-      if (body && id) {
-        const userUpdated = new Users(...Object.values(body));
+      if (validate(...Object.values(body))) {
         await usersDAO._verifyId(id);
+        const userUpdated = new Users(...Object.values(body));
         const updateUser = await usersDAO.putUser(id, userUpdated);
         res.status(200).json(updateUser);
       }
