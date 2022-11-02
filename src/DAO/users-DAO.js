@@ -59,12 +59,13 @@ class UsersDAO {
   postUser = (newUser) => {
     return new Promise((resolve, reject) => {
       this.dbUsers.run(
-        "INSERT INTO USUARIOS VALUES(?, ?, ?, ?, ?)",
+        "INSERT INTO USUARIOS VALUES(?, ?, ?, ?, ?, ?)",
         newUser.id,
         newUser.nome_completo,
         newUser.email,
         newUser.senha,
         newUser.id_trilhas,
+        newUser.admin,
         (error) => {
           if (error) {
             reject(error);
@@ -98,11 +99,12 @@ class UsersDAO {
   putUser = (id, User) => {
     return new Promise((resolve, reject) => {
       this.dbUsers.run(
-        "UPDATE USUARIOS SET NOME_COMPLETO = ?, EMAIL = ?, SENHA = ?, ID_TRILHAS = ?",
+        "UPDATE USUARIOS SET NOME_COMPLETO = ?, EMAIL = ?, SENHA = ?, ID_TRILHAS = ?, ADMIN = ?",
         User.nome_completo,
         User.email,
         User.senha,
         User.id_trilhas,
+        User.admin,
         id,
         (error) => {
           if (error) {
