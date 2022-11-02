@@ -50,7 +50,9 @@ const usersController = (app, dbUsers) => {
     try {
       if (validate(...Object.values(body))) {
         const newUser = new Users(...Object.values(body));
-        res.status(201).json(await usersDAO.postUser(newUser));
+        if (await usersDAO._repeatedEmail(newUser.email)) {
+          res.status(201).json(await usersDAO.postUser(newUser));
+        }
       }
     } catch (e) {
       res.status(400).json({
@@ -68,8 +70,10 @@ const usersController = (app, dbUsers) => {
       if (validate(...Object.values(body))) {
         await usersDAO._verifyId(id);
         const userUpdated = new Users(...Object.values(body));
-        const updateUser = await usersDAO.putUser(id, userUpdated);
-        res.status(200).json(updateUser);
+        if (await usersDAO._repeatedEmail(userUpdated.email)) {
+          const updateUser = await usersDAO.putUser(id, userUpdated);
+          res.status(200).json(updateUser);
+        }
       }
     } catch (e) {
       res.status(400).json({
