@@ -98,7 +98,7 @@ const usersController = (app, dbUsers) => {
     }
   });
 
-  app.post("/usuarios/login", verify, hasAdmin([1]), async (req, res) => {
+  app.post("/usuarios/login", async (req, res) => {
     const { email, senha } = req.body;
 
     try {
