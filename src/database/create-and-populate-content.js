@@ -14,18 +14,17 @@ CREATE TABLE IF NOT EXISTS "CONTEUDOS" (
     "DURACAO" TEXT,
     "FONTE" VARCHAR(200),
     "DESCRICAO" VARCHAR(200),
-    "ANOTACOES" TEXT,
     "TAG" TEXT,
     "ID_TRILHAS" INTEGER,
-    FOREIGN KEY (ID_TRILHAS) REFERENCES TRILHAS(ID_TRILHA)
+    FOREIGN KEY ("ID_TRILHAS") REFERENCES "TRILHAS"("ID")
 
   );`;
 
 const ADD_CONTEUDOS_DATA = `
-INSERT INTO "CONTEUDOS" (TITULO, TIPO, DURACAO, FONTE, DESCRICAO, ANOTACOES, TAG, ID_TRILHAS)
+INSERT INTO "CONTEUDOS" (TITULO, TIPO, DURACAO, FONTE, DESCRICAO, TAG, ID_TRILHAS)
 VALUES 
-  ('Guia definitivo de como migrar para ux design em 5 passos', 'Artigo', '6 minutos', 'https://medium.com/orangejuicefc/guia-definitivo-de-como-migrar-para-ux-design-5-passos-para-virar-um-ux-1675f71796b4', 'a', 'a', 'migração', 1),
-  ('Design Thinking e carreira: como migrei de Psicologia para UX Design', 'Artigo', '5 minutos', 'https://medium.com/orangejuicefc/design-thinking-e-carreira-como-migrei-de-psicologia-para-ux-design-cb79e8b47df5', 'a', 'a', 'migração', 1)
+  ('Guia definitivo de como migrar para ux design em 5 passos', 'Artigo', '6 minutos', 'https://medium.com/orangejuicefc/guia-definitivo-de-como-migrar-para-ux-design-5-passos-para-virar-um-ux-1675f71796b4', 'a', 'migração', 1),
+  ('Design Thinking e carreira: como migrei de Psicologia para UX Design', 'Artigo', '5 minutos', 'https://medium.com/orangejuicefc/design-thinking-e-carreira-como-migrei-de-psicologia-para-ux-design-cb79e8b47df5', 'a', 'migração', 1)
 `;
 
 function criaTabelaCtd() {
