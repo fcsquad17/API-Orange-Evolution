@@ -44,6 +44,18 @@ const usersController = (app, dbUsers) => {
 
   app.post("/usuarios", async (req, res) => {
     const body = req.body;
+
+    try {
+      if (body) {
+        const newUser = new User(...Object.values(body));
+        res.status(201).json(await UsersDAO.postUser(newUser));
+      }
+    } catch (e) {
+      res.status(400).json({
+        msg: e.message,
+        error: true,
+      });
+    }
   });
 };
 
