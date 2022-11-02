@@ -1,3 +1,5 @@
+import ErrStatus from "../model/Error.js";
+
 class UsersDAO {
   constructor(dbUsers) {
     this.dbUsers = dbUsers;
@@ -132,7 +134,11 @@ class UsersDAO {
   _verifyEmail = async (email) => {
     const usuario = await this.getByEmail(email);
     if (usuario.usuario === undefined) {
-      throw new Error(`Usuario de email ${email} não encontrado.`);
+      throw new ErrStatus(
+        `Usuario de email ${email} não encontrado.`,
+        404,
+        new Error(`Usuario de email ${email} não encontrado.`)
+      );
     }
     return usuario;
   };
