@@ -1,9 +1,14 @@
 import sqlite3 from "sqlite3";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import UsersDAO from "../DAO/users-DAO.js";
+import dbUsers from "./db-users.js";
+const usersDAO = new UsersDAO(dbUsers);
 sqlite3.verbose();
 const filePath = dirname(fileURLToPath(import.meta.url)) + "/database-users.db";
 const db = new sqlite3.Database(filePath);
+
+await usersDAO.activeForeignKeys();
 
 const USUARIOS_SCHEMA = `
 CREATE TABLE IF NOT EXISTS "USUARIOS" (
@@ -13,7 +18,7 @@ CREATE TABLE IF NOT EXISTS "USUARIOS" (
     "SENHA" VARCHAR(100),
     "ID_TRILHAS" INTEGER,
     "ADMIN" INTEGER, 
-    FOREIGN KEY (ID_TRILHAS) REFERENCES TRILHAS(ID_TRILHA)
+    FOREIGN KEY ("ID_TRILHAS") REFERENCES "TRILHAS"("ID")
   );`;
 
 const ADD_USUARIOS_DATA = `
