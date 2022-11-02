@@ -5,7 +5,7 @@ const trilhasController = (app, dbTrilhas) => {
 
   app.get("/trilhas", async (req, res) => {
     try {
-      res.json(await trilhasDAO.getAll());
+      res.status(200).json(await trilhasDAO.getAll());
     } catch (e) {
       res.status(400).json({
         msg: e.message,
