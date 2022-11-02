@@ -6,7 +6,7 @@ const filePath = dirname(fileURLToPath(import.meta.url)) + "/database-users.db";
 const dbUsers = new sqlite3.Database(filePath);
 
 process.on("SIGINT", () =>
-  db.close(() => {
+  dbUsers.close(() => {
     console.log("BD encerrado!");
     process.exit(0);
   })
