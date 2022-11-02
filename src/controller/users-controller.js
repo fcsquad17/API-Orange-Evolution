@@ -1,4 +1,5 @@
 import UsersDAO from "../DAO/users-DAO.js";
+import Users from "../model/Users.js";
 
 const usersController = (app, dbUsers) => {
   const usersDAO = new UsersDAO(dbUsers);
@@ -47,7 +48,7 @@ const usersController = (app, dbUsers) => {
 
     try {
       if (body) {
-        const newUser = new User(...Object.values(body));
+        const newUser = new Users(...Object.values(body));
         res.status(201).json(await usersDAO.postUser(newUser));
       }
     } catch (e) {
@@ -64,7 +65,7 @@ const usersController = (app, dbUsers) => {
 
     try {
       if (body && id) {
-        const userUpdated = new User(...Object.values(body));
+        const userUpdated = new Users(...Object.values(body));
         await usersDAO._verifyId(id);
         const updateUser = await usersDAO.putUser(id, userUpdated);
         res.status(200).json(updateUser);
