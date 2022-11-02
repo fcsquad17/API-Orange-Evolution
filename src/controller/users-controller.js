@@ -1,7 +1,6 @@
 import UsersDAO from "../DAO/users-DAO.js";
 import Users from "../model/Users.js";
 import validate from "../service/validate.js";
-import hasAdmin from "../middleware/general-middleware.js";
 
 const usersController = (app, dbUsers) => {
   const usersDAO = new UsersDAO(dbUsers);
@@ -98,7 +97,7 @@ const usersController = (app, dbUsers) => {
     }
   });
 
-  app.post("/usuarios/login", verify, hasAdmin([1]), async (req, res) => {
+  app.post("/usuarios/login", async (req, res) => {
     const { email, senha } = req.body;
 
     try {
