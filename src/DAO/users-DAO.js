@@ -99,7 +99,7 @@ class UsersDAO {
   putUser = (id, User) => {
     return new Promise((resolve, reject) => {
       this.dbUsers.run(
-        "UPDATE USUARIOS SET NOME_COMPLETO = ?, EMAIL = ?, SENHA = ?, ID_TRILHAS = ?, ADMIN = ?",
+        "UPDATE USUARIOS SET NOME_COMPLETO = ?, EMAIL = ?, SENHA = ?, ID_TRILHAS = ?, ADMIN = ? WHERE ID = ?",
         User.nome_completo,
         User.email,
         User.senha,
@@ -130,7 +130,7 @@ class UsersDAO {
   };
 
   _verifyEmail = async (email) => {
-    const usuario = await this.getById(email);
+    const usuario = await this.getByEmail(email);
     if (usuario.usuario === undefined) {
       throw new Error(`Usuario de email ${email} não encontrado.`);
     }
