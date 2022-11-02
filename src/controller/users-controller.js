@@ -1,7 +1,6 @@
 import UsersDAO from "../DAO/users-DAO.js";
 import Users from "../model/Users.js";
 import validate from "../service/validate.js";
-import hasAdmin from "../middleware/general-middleware.js";
 
 const usersController = (app, dbUsers) => {
   const usersDAO = new UsersDAO(dbUsers);
