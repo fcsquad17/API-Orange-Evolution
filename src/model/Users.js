@@ -1,11 +1,10 @@
 class Users {
-  constructor(id, nome_completo, email, senha, id_trilhas, adm) {
-    this.id = id;
+  constructor(nome_completo, email, senha, id_trilhas, admin) {
     this.nome_completo = nome_completo;
     this.email = email;
     this.senha = senha;
     this.id_trilhas = id_trilhas;
-    this.adm = adm;
+    this.admin = admin;
   }
 }
 
