@@ -1,6 +1,7 @@
 import UsersDAO from "../DAO/users-DAO.js";
 import Users from "../model/Users.js";
 import validate from "../service/validate.js";
+import ErrStatus from "../model/Error.js";
 
 const usersController = (app, dbUsers) => {
   const usersDAO = new UsersDAO(dbUsers);
@@ -101,20 +102,22 @@ const usersController = (app, dbUsers) => {
     const { email, senha } = req.body;
 
     try {
+      await usersDAO._verifyEmail(email);
       const login = await usersDAO.getByEmail(email);
       if (email !== login.usuario.EMAIL || senha !== login.usuario.SENHA) {
-        res.status(400).json({
-          msg: "Email ou senha inválido!",
-          error: true,
-        });
+        throw new ErrStatus(
+          "Email ou senha inválido!",
+          400,
+          new Error("Email ou senha inválido!")
+        );
       }
       res.status(200).json({
         usuario: login.usuario,
         msg: `Usuario ${login.usuario.NOME_COMPLETO} logado!`,
       });
     } catch (e) {
-      res.status(400).json({
-        msg: "Email ou senha inválido!",
+      res.status(e.status).json({
+        msg: e.message,
         error: true,
       });
     }
