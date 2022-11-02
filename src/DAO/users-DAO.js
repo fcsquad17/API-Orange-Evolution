@@ -5,6 +5,15 @@ class UsersDAO {
     this.dbUsers = dbUsers;
   }
 
+  activeForeignKeys = async () => {
+    const query = "PRAGMA foreign_keys = ON";
+
+    this.dbUsers.run(query, (error) => {
+      if (error) console.log(error.message);
+      else console.log("Chaves estrangeiras ativadas com sucesso.");
+    });
+  };
+
   getAll = () => {
     return new Promise((resolve, reject) => {
       this.dbUsers.all("SELECT * FROM USUARIOS", (error, rows) => {
