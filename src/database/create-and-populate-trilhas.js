@@ -9,15 +9,16 @@ const db = new sqlite3.Database(filePath);
 const TRILHAS_SCHEMA = `
 CREATE TABLE IF NOT EXISTS "TRILHAS" (
     "ID" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "TITULO_TRILHA" VARCHAR(50)
+    "TITULO_TRILHA" VARCHAR(50),
+    "DESCRICAO" TEXT
   );`;
 
 const ADD_TRILHAS_DATA = `
-INSERT INTO "TRILHAS" (TITULO_TRILHA)
+INSERT INTO "TRILHAS" (TITULO_TRILHA, DESCRICAO)
 VALUES 
-    ('Desenvolvimento Full-Stack'),
-    ('UX Design'),
-    ('Quality Assurance')
+    ('Desenvolvimento Full-Stack', ''),
+    ('UX Design', ''),
+    ('Quality Assurance', '')
 `;
 
 function criaTabelaTri() {
