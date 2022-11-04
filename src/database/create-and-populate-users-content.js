@@ -25,7 +25,8 @@ VALUES
     (2, 4, FALSE),
     (2, 1, TRUE),
     (2, 2, TRUE),
-    (2, 3, TRUE)
+    (2, 3, TRUE),
+    (2, 5, TRUE)
 `;
 
 function criaTabelaUsrCtd() {
