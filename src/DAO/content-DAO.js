@@ -22,3 +22,5 @@ class ContentDAO {
     });
   };
 }
+
+export default ContentDAO;
