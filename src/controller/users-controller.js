@@ -45,6 +45,21 @@ const usersController = (app, dbUsers) => {
     }
   });
 
+  app.get("/usuarios/trilhaPorId/:id", async (req, res) => {
+    const id = req.params.id;
+
+    try {
+      await usersDAO._verifyId(id);
+      const trails = await usersDAO.getTrailsByUserId(id);
+      res.status(201).json(trails);
+    } catch (e) {
+      res.status(404).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
   app.post("/usuarios", async (req, res) => {
     const body = req.body;
 
