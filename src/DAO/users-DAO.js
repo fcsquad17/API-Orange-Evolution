@@ -8,7 +8,7 @@ class UsersDAO {
   activeForeignKeys = async () => {
     const query = "PRAGMA foreign_keys = ON";
 
-    this.dbUsers.run(query, (error) => {
+    await this.dbUsers.run(query, (error) => {
       if (error) console.log(error.message);
       else console.log("Chaves estrangeiras ativadas com sucesso.");
     });
