@@ -3,17 +3,17 @@ class ContentDAO {
     this.db = db;
   }
 
-  getTrailsByUserId = (idUser) => {
+  getFirstContent = (idTrail) => {
     return new Promise((resolve, reject) => {
-      this.db.all(
-        "SELECT TRILHAS.TITULO FROM TRILHAS INNER JOIN MODULOS ON MODULOS.TRILHAS_ID = TRILHAS.ID INNER JOIN CONTEUDO ON CONTEUDO.MODULO_ID = MODULOS.ID INNER JOIN USUARIO_CONTEUDO ON CONTEUDO.ID = USUARIO_CONTEUDO.CONTEUDO_ID WHERE USUARIO.ID = ?",
-        idUser,
-        (error, rows) => {
+      this.db.get(
+        "SELECT CONTEUDOS.ID FROM CONTEUDOS INNER JOIN MODULOS ON MODULOS_ID = MODULOS.ID INNER JOIN TRILHAS ON TRILHAS.ID = MODULOS.TRILHA_ID WHERE TRILHAS.ID = ? LIMIT 1",
+        idTrail,
+        (error, row) => {
           if (error) {
             reject(error);
           } else {
             resolve({
-              trilhas: rows,
+              conteudo: row,
               error: false,
             });
           }
@@ -21,4 +21,14 @@ class ContentDAO {
       );
     });
   };
+
+  //   postOneTrailUser = (idTrail, idUser) => {
+  //     return new Promise((resolve, reject) => {
+  //       this.db.run(
+  //         "SELECT * FROM (SELECT ) INSERT INTO CONTEUDO_USUARIO VALUES(?, ?, ?, ?)"
+  //       );
+  //     });
+  //   };
 }
+
+export default ContentDAO;

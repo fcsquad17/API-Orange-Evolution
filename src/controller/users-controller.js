@@ -45,6 +45,28 @@ const usersController = (app, dbUsers) => {
     }
   });
 
+  app.get("/usuarios/trilhaPorId/:id", async (req, res) => {
+    const id = req.params.id;
+
+    try {
+      await usersDAO._verifyId(id);
+      const trails = await usersDAO.getTrailsByUserId(id);
+      if (trails.trilhas.length !== 0) {
+        res.status(200).json(trails);
+      } else {
+        res.status(400).json({
+          msg: "O usuario não possui nenhuma trilha ou é administrador.",
+          error: true,
+        });
+      }
+    } catch (e) {
+      res.status(404).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
   app.post("/usuarios", async (req, res) => {
     const body = req.body;
 

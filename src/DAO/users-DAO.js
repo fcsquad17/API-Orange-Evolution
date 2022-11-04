@@ -132,6 +132,25 @@ class UsersDAO {
     });
   };
 
+  getTrailsByUserId = (idUser) => {
+    return new Promise((resolve, reject) => {
+      this.dbUsers.all(
+        "SELECT TRILHAS.TITULO FROM TRILHAS INNER JOIN MODULOS ON MODULOS.TRILHA_ID = TRILHAS.ID INNER JOIN CONTEUDOS ON CONTEUDOS.MODULO_ID = MODULOS.ID INNER JOIN USUARIO_CONTEUDO ON CONTEUDOS.ID = USUARIO_CONTEUDO.CONTEUDO_ID WHERE USUARIO_CONTEUDO.USUARIO_ID = ? GROUP BY TRILHAS.TITULO",
+        idUser,
+        (error, rows) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve({
+              trilhas: rows,
+              error: false,
+            });
+          }
+        }
+      );
+    });
+  };
+
   _verifyId = async (id) => {
     const usuario = await this.getById(id);
     if (usuario.usuario === undefined) {
