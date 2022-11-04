@@ -2,19 +2,18 @@ import sqlite3 from "sqlite3";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 sqlite3.verbose();
-const filePath =
-  dirname(fileURLToPath(import.meta.url)) + "/database-trilhas.db";
+const filePath = dirname(fileURLToPath(import.meta.url)) + "/database.db";
 const db = new sqlite3.Database(filePath);
 
 const TRILHAS_SCHEMA = `
 CREATE TABLE IF NOT EXISTS "TRILHAS" (
     "ID" INTEGER PRIMARY KEY AUTOINCREMENT,
-    "TITULO_TRILHA" VARCHAR(50),
+    "TITULO" VARCHAR(50),
     "DESCRICAO" TEXT
   );`;
 
 const ADD_TRILHAS_DATA = `
-INSERT INTO "TRILHAS" (TITULO_TRILHA, DESCRICAO)
+INSERT INTO "TRILHAS" (TITULO, DESCRICAO)
 VALUES 
     ('Desenvolvimento Full-Stack', ''),
     ('UX Design', ''),
