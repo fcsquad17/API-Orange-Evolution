@@ -3,13 +3,13 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 sqlite3.verbose();
 const filePath = dirname(fileURLToPath(import.meta.url)) + "/database.db";
-const db = new sqlite3.Database(filePath);
+const dbSq = new sqlite3.Database(filePath);
 
 process.on("SIGINT", () =>
-  db.close(() => {
+  dbSq.close(() => {
     console.log("BD encerrado!");
     process.exit(0);
   })
 );
 
-export default db;
+export default dbSq;
