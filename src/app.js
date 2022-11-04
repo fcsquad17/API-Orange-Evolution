@@ -1,8 +1,7 @@
 import express from "express";
 import trilhasController from "./controller/trilhas-controller.js";
 import usersController from "./controller/users-controller.js";
-import UsersDAO from "./DAO/users-DAO.js";
-import db from "./database/db-sqlite.js";
+import dbSq from "./database/db-sqlite.js";
 
 const app = express();
 
@@ -26,9 +25,9 @@ const queryTest = async (db) => {
   });
 };
 
-console.log(await queryTest(db));
+console.log(await queryTest(dbSq));
 
-trilhasController(app, db);
-usersController(app, db);
+trilhasController(app, dbSq);
+usersController(app, dbSq);
 
 export default app;
