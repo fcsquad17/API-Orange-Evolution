@@ -2,10 +2,10 @@ import sqlite3 from "sqlite3";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import UsersDAO from "../DAO/users-DAO.js";
-import dbUsers from "./db-users.js";
-const usersDAO = new UsersDAO(dbUsers);
+import dbSq from "./db-sqlite.js";
+const usersDAO = new UsersDAO(dbSq);
 sqlite3.verbose();
-const filePath = dirname(fileURLToPath(import.meta.url)) + "/database-users.db";
+const filePath = dirname(fileURLToPath(import.meta.url)) + "/database.db";
 const db = new sqlite3.Database(filePath);
 
 await usersDAO.activeForeignKeys();
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS "USUARIOS" (
     "NOME_COMPLETO" VARCHAR(100),
     "EMAIL" VARCHAR(100),
     "SENHA" VARCHAR(100),
-    "ADMIN" INTEGER
+    "ADMIN" TINYINT
   );`;
 
 const ADD_USUARIOS_DATA = `
