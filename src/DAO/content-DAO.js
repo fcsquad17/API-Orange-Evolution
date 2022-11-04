@@ -29,6 +29,15 @@ class ContentDAO {
   //       );
   //     });
   //   };
+
+  _verifyIdTrail = async (idTrail) => {
+    const trail = await this.getFirstContent(idTrail);
+    if (trail.conteudo === undefined) {
+      throw new Error(`Trilha de id ${idTrail} não encontrada`);
+    } else {
+      return trail;
+    }
+  };
 }
 
 export default ContentDAO;
