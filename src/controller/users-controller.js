@@ -51,7 +51,14 @@ const usersController = (app, dbUsers) => {
     try {
       await usersDAO._verifyId(id);
       const trails = await usersDAO.getTrailsByUserId(id);
-      res.status(201).json(trails);
+      if (trails.trilhas.length !== 0) {
+        res.status(200).json(trails);
+      } else {
+        res.status(400).json({
+          msg: "O usuario não possui nenhuma trilha ou é administrador.",
+          error: true,
+        });
+      }
     } catch (e) {
       res.status(404).json({
         msg: e.message,
