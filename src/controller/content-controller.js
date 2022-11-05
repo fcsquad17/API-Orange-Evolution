@@ -1,10 +1,6 @@
 import ContentDAO from "../DAO/content-DAO.js";
 import ContentsUsers from "../model/Contents.js";
-import {
-  validate,
-  validateTrailId,
-  validateUserId,
-} from "../service/validate.js";
+import { validateTrailId, validateUserId } from "../service/validate.js";
 
 const contentController = (app, db) => {
   const contentDAO = new ContentDAO(db);
@@ -41,18 +37,16 @@ const contentController = (app, db) => {
   app.post("/usuario-conteudo", async (req, res) => {
     const body = req.body;
     try {
-      if (validate(...Object.values(body))) {
-        const newContent = new ContentsUsers(...Object.values(body));
-        res
-          .status(201)
-          .json(
-            await contentDAO.postContentUser(
-              newContent.idUser,
-              newContent.idContent,
-              newContent.done
-            )
-          );
-      }
+      const newContent = new ContentsUsers(...Object.values(body));
+      res
+        .status(201)
+        .json(
+          await contentDAO.postContentUser(
+            newContent.idUser,
+            newContent.idContent,
+            newContent.done
+          )
+        );
     } catch (e) {
       res.status(400).json({
         msg: e.message,
