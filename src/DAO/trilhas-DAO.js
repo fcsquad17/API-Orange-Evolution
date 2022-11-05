@@ -21,7 +21,7 @@ class TrilhasDAO {
   getById = (id) => {
     return new Promise((resolve, reject) => {
       this.dbTrilhas.get(
-        "SELECT * FROM TRILHAS WHERE ID_TRILHA = ?",
+        "SELECT * FROM TRILHAS WHERE ID = ?",
         id,
         (error, row) => {
           if (error) {

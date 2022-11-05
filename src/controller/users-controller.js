@@ -1,6 +1,6 @@
 import UsersDAO from "../DAO/users-DAO.js";
 import Users from "../model/Users.js";
-import { validate } from "../service/validate.js";
+import { validateBodyUser } from "../service/validate.js";
 import ErrStatus from "../model/Error.js";
 
 const usersController = (app, dbUsers) => {
