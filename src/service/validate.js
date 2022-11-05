@@ -1,9 +1,17 @@
-const validate = (nome_completo, email, senha, id_trilhas, admin) => {
+import TrilhasDAO from "../DAO/trilhas-DAO.js";
+import dbSq from "../database/db-sqlite.js";
+const trilhasDAO = new TrilhasDAO(dbSq);
+
+const validateTrailId = async (idTrail) => {
+  const trail = await trilhasDAO._verifyId(idTrail);
+  return trail;
+};
+
+const validate = (nome_completo, email, senha, admin) => {
   if (
     nome_completo !== undefined &&
     email !== undefined &&
     senha !== undefined &&
-    id_trilhas !== undefined &&
     admin !== undefined
   ) {
     return true;
@@ -12,4 +20,4 @@ const validate = (nome_completo, email, senha, id_trilhas, admin) => {
   }
 };
 
-export default validate;
+export { validate, validateTrailId };
