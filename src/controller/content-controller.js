@@ -1,4 +1,5 @@
 import ContentDAO from "../DAO/content-DAO.js";
+import { validateTrailId } from "../service/validate.js";
 
 const contentController = (app, db) => {
   const contentDAO = new ContentDAO(db);
@@ -6,7 +7,7 @@ const contentController = (app, db) => {
   app.get("/conteudo/idTrilha/:id", async (req, res) => {
     const id = req.params.id;
     try {
-      await contentDAO._verifyIdTrail(id);
+      await validateTrailId(id);
       const content = await contentDAO.getFirstContent(id);
       res.status(200).json(content);
     } catch (e) {
