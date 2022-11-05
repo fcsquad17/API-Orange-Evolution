@@ -22,6 +22,47 @@ class ContentDAO {
     });
   };
 
+  postContentUser = (idUser, idContent, done) => {
+    return new Promise((resolve, reject) => {
+      this.db.run(
+        "INSERT INTO USUARIO_CONTEUDO VALUES(?, ?, ?, ?)",
+        idUser,
+        idUser,
+        idContent,
+        done,
+        (error) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve({
+              msg: `Registro de conteudo inserido com sucesso!`,
+              error: false,
+            });
+          }
+        }
+      );
+    });
+  };
+
+  deleteContentUser = (idUser, idContent) => {
+    return new Promise((resolve, reject) => {
+      this.db.run(
+        "DELETE FROM USUARIO_CONTEUDO WHERE USUARIO_ID = ? AND CONTEUDO_ID = ?",
+        idUser,
+        idContent,
+        (error) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve({
+              msg: `Registro de usuario ${idUser} e conteudo ${idContent} removido com sucesso!`,
+            });
+          }
+        }
+      );
+    });
+  };
+
   //   postOneTrailUser = (idTrail, idUser) => {
   //     return new Promise((resolve, reject) => {
   //       this.db.run(
@@ -29,15 +70,6 @@ class ContentDAO {
   //       );
   //     });
   //   };
-
-  _verifyIdTrail = async (idTrail) => {
-    const trail = await this.getFirstContent(idTrail);
-    if (trail.conteudo === undefined) {
-      throw new Error(`Trilha de id ${idTrail} não encontrada`);
-    } else {
-      return trail;
-    }
-  };
 }
 
 export default ContentDAO;
