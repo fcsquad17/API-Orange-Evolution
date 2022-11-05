@@ -6,4 +6,4 @@ class ContentsUsers {
   }
 }
 
-export { ContentsUsers };
+export default ContentsUsers;
