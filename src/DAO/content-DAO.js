@@ -63,6 +63,25 @@ class ContentDAO {
     });
   };
 
+  getAllContentByTrailId = (idTrail) => {
+    return new Promise((resolve, reject) => {
+      this.db.all(
+        "SELECT * FROM CONTEUDOS INNER JOIN MODULOS ON MODULOS.ID = MODULO_ID INNER JOIN TRILHAS ON TRILHA_ID = TRILHAS.ID WHERE TRILHAS.ID = ?",
+        idTrail,
+        (error, rows) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve({
+              conteudos: rows,
+              error: false,
+            });
+          }
+        }
+      );
+    });
+  };
+
   //   postOneTrailUser = (idTrail, idUser) => {
   //     return new Promise((resolve, reject) => {
   //       this.db.run(
