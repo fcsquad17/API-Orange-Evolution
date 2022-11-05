@@ -72,7 +72,7 @@ const usersController = (app, dbUsers) => {
 
     try {
       console.log(...Object.values(body));
-      if (validate(...Object.values(body))) {
+      if (validateBodyUser(...Object.values(body))) {
         const newUser = new Users(...Object.values(body));
         if (await usersDAO._repeatedEmail(newUser.email)) {
           res.status(201).json(await usersDAO.postUser(newUser));
@@ -91,7 +91,7 @@ const usersController = (app, dbUsers) => {
     const body = req.body;
 
     try {
-      if (validate(...Object.values(body))) {
+      if (validateBodyUser(...Object.values(body))) {
         await usersDAO._verifyId(id);
         const userUpdated = new Users(...Object.values(body));
         const updateUser = await usersDAO.putUser(id, userUpdated);
