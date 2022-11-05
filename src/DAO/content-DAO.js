@@ -3,6 +3,25 @@ class ContentDAO {
     this.db = db;
   }
 
+  getById = (idContent) => {
+    return new Promise((resolve, reject) => {
+      this.db.get(
+        "SELECT * FROM CONTEUDOS WHERE ID = ?",
+        idContent,
+        (error, row) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve({
+              conteudo: row,
+              error: false,
+            });
+          }
+        }
+      );
+    });
+  };
+
   getFirstContent = (idTrail) => {
     return new Promise((resolve, reject) => {
       this.db.get(
@@ -80,6 +99,15 @@ class ContentDAO {
         }
       );
     });
+  };
+
+  _verifyId = async (idContent) => {
+    const content = await this.getById(idContent);
+    if (content.conteudo === undefined) {
+      throw new Error(`Conteudo de id ${idContent} não encontrado.`);
+    }
+
+    return content;
   };
 }
 
