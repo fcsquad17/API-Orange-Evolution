@@ -38,6 +38,8 @@ const contentController = (app, db) => {
     const body = req.body;
     try {
       const newContent = new ContentsUsers(...Object.values(body));
+      await validateUserId(newContent.idUser);
+      await contentDAO._verifyId(newContent.idContent);
       res
         .status(201)
         .json(
