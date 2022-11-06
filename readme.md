@@ -60,7 +60,7 @@ npm start
 
 ## 🖇️ Endpoints
 
-## ![Badge do status](https://img.shields.io/badge/STATUS-EM%20PROGRESSO-yellowgreen?style=for-the-badge)
+![Badge do status](https://img.shields.io/badge/STATUS-EM%20PROGRESSO-yellowgreen?style=for-the-badge)
 
 ### Features das entidades
 
