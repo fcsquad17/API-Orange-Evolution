@@ -71,7 +71,6 @@ const usersController = (app, dbUsers) => {
     const body = req.body;
 
     try {
-      console.log(...Object.values(body));
       if (validateBodyUser(...Object.values(body))) {
         const newUser = new Users(...Object.values(body));
         if (await usersDAO._repeatedEmail(newUser.email)) {

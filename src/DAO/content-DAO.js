@@ -45,7 +45,7 @@ class ContentDAO {
     return new Promise((resolve, reject) => {
       this.db.run(
         "INSERT INTO USUARIO_CONTEUDO VALUES(?, ?, ?, ?)",
-        idUser,
+        null,
         idUser,
         idContent,
         done,
