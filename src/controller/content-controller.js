@@ -1,10 +1,8 @@
 import ContentDAO from "../DAO/content-DAO.js";
 import { ContentsUsers, Contents } from "../model/Contents.js";
-import {
-  validateTrailId,
-  validateUserId,
-  validateBodyContent,
-} from "../service/validate.js";
+import { validateTrailId } from "../service/validateTrails.js";
+import { validateUserId } from "../service/validateUsers.js";
+import validateBodyContent from "../service/validateContents.js";
 
 const contentController = (app, db) => {
   const contentDAO = new ContentDAO(db);
