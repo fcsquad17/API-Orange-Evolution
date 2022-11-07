@@ -106,14 +106,14 @@ class UsersDAO {
     });
   };
 
-  putUser = (id, User) => {
+  putUser = (id, user) => {
     return new Promise((resolve, reject) => {
       this.dbUsers.run(
         "UPDATE USUARIOS SET NOME_COMPLETO = ?, EMAIL = ?, SENHA = ?, ADMIN = ? WHERE ID = ?",
-        User.nome_completo,
-        User.email,
-        User.senha,
-        User.admin,
+        user.nome_completo,
+        user.email,
+        user.senha,
+        user.admin,
         id,
         (error) => {
           if (error) {
@@ -121,7 +121,7 @@ class UsersDAO {
           } else {
             resolve({
               msg: `Usuario de id ${id} atualizado com sucesso!`,
-              usuario: User,
+              usuario: user,
               error: false,
             });
           }
