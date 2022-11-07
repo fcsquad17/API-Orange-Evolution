@@ -1,6 +1,8 @@
 import TrilhasDAO from "../DAO/trilhas-DAO.js";
+import ErrStatus from "../model/Error.js";
 import UsersDAO from "../DAO/users-DAO.js";
 import dbSq from "../database/db-sqlite.js";
+
 const trilhasDAO = new TrilhasDAO(dbSq);
 const usersDAO = new UsersDAO(dbSq);
 
@@ -23,7 +25,7 @@ const validateBodyUser = (nome_completo, email, senha, admin) => {
   ) {
     return true;
   } else {
-    throw new Error("Há alguma informação faltando.");
+    throw new ErrStatus("Há alguma informação faltando.", 400);
   }
 };
 
