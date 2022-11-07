@@ -1,5 +1,5 @@
 import ContentDAO from "../DAO/content-DAO.js";
-import ContentsUsers from "../model/Contents.js";
+import { ContentsUsers, Contents } from "../model/Contents.js";
 import { validateTrailId, validateUserId } from "../service/validate.js";
 
 const contentController = (app, db) => {
