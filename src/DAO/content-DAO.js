@@ -42,6 +42,7 @@ class ContentDAO {
           } else {
             resolve({
               msg: "Conteudo adicionado com sucesso!",
+              conteudo: newContent,
               error: false,
             });
           }
@@ -68,6 +69,7 @@ class ContentDAO {
           } else {
             resolve({
               msg: `Conteudo de id ${id} atualizado com sucesso!`,
+              conteudo: content,
               error: false,
             });
           }
