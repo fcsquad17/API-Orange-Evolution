@@ -152,7 +152,7 @@ class UsersDAO {
   _verifyId = async (id) => {
     const usuario = await this.getById(id);
     if (usuario.usuario === undefined) {
-      throw new Error(`Usuario de id ${id} não encontrado.`);
+      throw new ErrStatus(`Usuario de id ${id} não encontrado.`, 404);
     }
     return usuario;
   };

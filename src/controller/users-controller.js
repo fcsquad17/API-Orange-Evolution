@@ -97,7 +97,7 @@ const usersController = (app, dbUsers) => {
         res.status(200).json(updateUser);
       }
     } catch (e) {
-      res.status(400).json({
+      res.status(e.status).json({
         msg: e.message,
         error: true,
       });

@@ -1,3 +1,5 @@
+import ErrStatus from "../model/Error";
+
 class ContentDAO {
   constructor(db) {
     this.db = db;
@@ -171,7 +173,7 @@ class ContentDAO {
   _verifyId = async (idContent) => {
     const content = await this.getById(idContent);
     if (content.conteudo === undefined) {
-      throw new Error(`Conteudo de id ${idContent} não encontrado.`);
+      throw new ErrStatus(`Conteudo de id ${idContent} não encontrado.`, 404);
     }
 
     return content;

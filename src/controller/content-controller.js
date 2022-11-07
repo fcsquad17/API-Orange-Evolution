@@ -1,6 +1,10 @@
 import ContentDAO from "../DAO/content-DAO.js";
 import { ContentsUsers, Contents } from "../model/Contents.js";
-import { validateTrailId, validateUserId } from "../service/validate.js";
+import {
+  validateTrailId,
+  validateUserId,
+  validateBodyContent,
+} from "../service/validate.js";
 
 const contentController = (app, db) => {
   const contentDAO = new ContentDAO(db);
@@ -48,6 +52,22 @@ const contentController = (app, db) => {
     }
   });
 
+  app.post("/conteudos", async (req, res) => {
+    const body = req.body;
+
+    try {
+      if (validateBodyContent(...Object.values(body))) {
+        const newContent = new Contents(...Object.values(body));
+        res.status(201).json(await contentDAO.postContent(newContent));
+      }
+    } catch (e) {
+      res.status(400).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
   app.post("/usuario-conteudo", async (req, res) => {
     const body = req.body;
     try {
@@ -65,6 +85,40 @@ const contentController = (app, db) => {
         );
     } catch (e) {
       res.status(400).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
+  app.put("/conteudos/id/:id", async (req, res) => {
+    const id = req.params.id;
+    const body = req.body;
+
+    try {
+      if (validateBodyContent(...Object.values(body))) {
+        await contentDAO._verifyId(id);
+        const contentUpdated = new Contents(...Object.values(body));
+        const updateContent = await contentDAO.putContent(id, contentUpdated);
+        res.status(200).json(updateContent);
+      }
+    } catch (e) {
+      res.status(e.status).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
+  app.delete("/conteudos/id/:id", async (req, res) => {
+    const id = req.params.id;
+
+    try {
+      await contentDAO._verifyId(id);
+      const deleteContent = await contentDAO.deleteContent(id);
+      res.status(200).json(deleteContent);
+    } catch (e) {
+      res.status(404).json({
         msg: e.message,
         error: true,
       });
