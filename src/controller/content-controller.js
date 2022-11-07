@@ -5,7 +5,21 @@ import { validateTrailId, validateUserId } from "../service/validate.js";
 const contentController = (app, db) => {
   const contentDAO = new ContentDAO(db);
 
-  app.get("/conteudo/idTrilha/:id", async (req, res) => {
+  app.get("/conteudos/id/:id", async (req, res) => {
+    const id = req.params.id;
+
+    try {
+      const content = await contentDAO._verifyId(id);
+      res.status(200).json(content);
+    } catch (e) {
+      res.status(404).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
+  app.get("/conteudos/idTrilha/:id", async (req, res) => {
     const id = req.params.id;
     try {
       await validateTrailId(id);
@@ -19,7 +33,7 @@ const contentController = (app, db) => {
     }
   });
 
-  app.get("/conteudo/porIdTrilha/:idTrail", async (req, res) => {
+  app.get("/conteudos/porIdTrilha/:idTrail", async (req, res) => {
     const idTrail = req.params.idTrail;
 
     try {
