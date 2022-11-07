@@ -25,8 +25,37 @@ const validateBodyUser = (nome_completo, email, senha, admin) => {
   ) {
     return true;
   } else {
-    throw new ErrStatus("Há alguma informação faltando.", 400);
+    throw new ErrStatus("Há alguma informação faltando no body.", 400);
   }
 };
 
-export { validateBodyUser, validateTrailId, validateUserId };
+const validateBodyContent = (
+  titulo,
+  tipo,
+  duracao,
+  fonte,
+  descricao,
+  tag,
+  moduloId
+) => {
+  if (
+    titulo !== undefined &&
+    tipo !== undefined &&
+    duracao !== undefined &&
+    fonte !== undefined &&
+    descricao !== undefined &&
+    tag !== undefined &&
+    moduloId !== undefined
+  ) {
+    return true;
+  } else {
+    throw new ErrStatus("Há alguma informação faltando no body.", 400);
+  }
+};
+
+export {
+  validateBodyUser,
+  validateTrailId,
+  validateUserId,
+  validateBodyContent,
+};
