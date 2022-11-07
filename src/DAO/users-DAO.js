@@ -71,7 +71,7 @@ class UsersDAO {
     return new Promise((resolve, reject) => {
       this.dbUsers.run(
         "INSERT INTO USUARIOS VALUES(?, ?, ?, ?, ?)",
-        newUser.id,
+        null,
         newUser.nome_completo,
         newUser.email,
         newUser.senha,
@@ -98,7 +98,7 @@ class UsersDAO {
           reject(error);
         } else {
           resolve({
-            usuario: `Usuario de id ${id} deletado com sucesso!`,
+            msg: `Usuario de id ${id} deletado com sucesso!`,
             error: false,
           });
         }

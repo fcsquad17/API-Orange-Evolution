@@ -22,6 +22,73 @@ class ContentDAO {
     });
   };
 
+  postContent = (newContent) => {
+    return new Promise((resolve, reject) => {
+      this.db.run(
+        "INSERT INTO CONTEUDOS VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        null,
+        newContent.titulo,
+        newContent.tipo,
+        newContent.duracao,
+        newContent.fonte,
+        newContent.descricao,
+        newContent.tag,
+        newContent.moduloId,
+        (error) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve({
+              msg: "Conteudo adicionado com sucesso!",
+              error: false,
+            });
+          }
+        }
+      );
+    });
+  };
+
+  putContent = (id, content) => {
+    return new Promise((resolve, reject) => {
+      this.db.run(
+        "UPDATE CONTEUDOS SET TITULO = ?, TIPO = ?, DURACAO = ?, FONTE = ?, DESCRICAO = ?, TAG = ?, MODULO_ID = ? WHERE ID = ?",
+        content.titulo,
+        content.tipo,
+        content.duracao,
+        content.fonte,
+        content.descricao,
+        content.tag,
+        content.moduloId,
+        id,
+        (error) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve({
+              msg: `Conteudo de id ${id} atualizado com sucesso!`,
+              error: false,
+            });
+          }
+        }
+      );
+    });
+  };
+
+  deleteContent = (id) => {
+    return new Promise((resolve, reject) => {
+      this.db.run("DELETE FROM CONTEUDOS WHERE ID = ?", id, (error) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve({
+            msg: `Conteudo de id ${id} removido com sucesso!`,
+            error: false,
+          });
+        }
+      });
+    });
+  };
+
   getFirstContent = (idTrail) => {
     return new Promise((resolve, reject) => {
       this.db.get(
