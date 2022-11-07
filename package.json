@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/server.js",
     "dev": "nodemon ./src/server.js",
     "db": "node ./src/database/create-and-populate-trilhas.js & node ./src/database/create-and-populate-users.js & node ./src/database/create-and-populate-modules.js & node ./src/database/create-and-populate-content.js & node ./src/database/create-and-populate-users-content.js"
   },
