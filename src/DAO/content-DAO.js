@@ -1,4 +1,4 @@
-import ErrStatus from "../model/Error";
+import ErrStatus from "../model/Error.js";
 
 class ContentDAO {
   constructor(db) {
