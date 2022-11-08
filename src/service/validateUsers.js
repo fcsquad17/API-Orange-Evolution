@@ -5,16 +5,16 @@ import dbSq from "../database/db-sqlite.js";
 const usersDAO = new UsersDAO(dbSq);
 
 const validateUserId = async (idUser) => {
-  const user = await usersDAO._verifyId(idUser);
-  return user;
+  return await usersDAO._verifyId(idUser);
 };
 
-const validateBodyUser = (nome_completo, email, senha, admin) => {
+const validateBodyUser = async (nome_completo, email, senha, admin) => {
   if (
-    nome_completo !== undefined &&
-    email !== undefined &&
-    senha !== undefined &&
-    admin !== undefined
+    nome_completo &&
+    email &&
+    senha &&
+    admin !== undefined &&
+    admin !== null
   ) {
     return true;
   } else {
