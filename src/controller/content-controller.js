@@ -2,6 +2,7 @@ import ContentDAO from "../DAO/content-DAO.js";
 import { ContentsUsers, Contents } from "../model/Contents.js";
 import { validateTrailId } from "../service/validateTrails.js";
 import { validateUserId } from "../service/validateUsers.js";
+import { validadeModuleId } from "../service/validateModules.js";
 import validateBodyContent from "../service/validateContents.js";
 
 const contentController = (app, db) => {
@@ -42,6 +43,20 @@ const contentController = (app, db) => {
       await validateTrailId(idTrail);
       const content = await contentDAO.getAllContentByTrailId(idTrail);
       res.status(200).json(content);
+    } catch (e) {
+      res.status(404).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
+  app.get("/conteudos/porIdModulo/:idModule", async (req, res) => {
+    const idModule = req.params.idModule;
+
+    try {
+      await validateModuleId(idModule);
+      res.status(200).json(await contentDAO.getByIdModule(idModule));
     } catch (e) {
       res.status(404).json({
         msg: e.message,
