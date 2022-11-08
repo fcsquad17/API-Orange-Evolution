@@ -76,17 +76,17 @@ npm start
 
 ##### CRUD da Entidade Trilhas
 
-- [ ] Create;
+- [x] Create;
 - [x] Read;
-- [ ] Update;
-- [ ] Delete;
+- [x] Update;
+- [x] Delete;
 
 ##### CRUD da Entidade Conteudos
 
-- [ ] Create;
+- [x] Create;
 - [x] Read;
-- [ ] Update;
-- [ ] Delete;
+- [x] Update;
+- [x] Delete;
 - Funcionalidades extras:
   - [x] Buscar conteudos por id da trilha;
 
