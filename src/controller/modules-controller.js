@@ -1,6 +1,6 @@
 import Modules from "../model/Modules.js";
 import ModulesDAO from "../DAO/modules-DAO.js";
-import validateBodyModule from "../service/validateModules.js";
+import { validateBodyModule } from "../service/validateModules.js";
 import { validateTrailId } from "../service/validateTrails.js";
 
 const modulesController = (app, db) => {
@@ -36,7 +36,7 @@ const modulesController = (app, db) => {
 
     try {
       await validateTrailId(idTrail);
-      res.status(200).json(modulesDAO.getByIdTrail(idTrail));
+      res.status(200).json(await modulesDAO.getByIdTrail(idTrail));
     } catch (e) {
       res.status(404).json({
         msg: e.message,
