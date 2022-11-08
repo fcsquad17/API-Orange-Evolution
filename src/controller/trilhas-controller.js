@@ -54,7 +54,7 @@ const trilhasController = (app, dbTrilhas) => {
       if (validateBodyTrail(...Object.values(body))) {
         await trilhasDAO._verifyId(id);
         const updatedTrail = new Trails(...Object.values(body));
-        res.status(200).json(await trilhasDAO.putTrail(updatedTrail));
+        res.status(200).json(await trilhasDAO.putTrail(id, updatedTrail));
       }
     } catch (e) {
       res.status(e.status).json({
