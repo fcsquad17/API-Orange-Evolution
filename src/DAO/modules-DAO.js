@@ -61,7 +61,7 @@ class ModulesDAO {
         null,
         newModule.titulo,
         newModule.descricao,
-        newModule.trilha_id,
+        newModule.trilhaId,
         (error) => {
           if (error) {
             reject(error);
