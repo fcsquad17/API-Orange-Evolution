@@ -5,12 +5,11 @@ import ErrStatus from "../model/Error.js";
 const trilhasDAO = new TrilhasDAO(dbSq);
 
 const validateTrailId = async (idTrail) => {
-  const trail = await trilhasDAO._verifyId(idTrail);
-  return trail;
+  return await trilhasDAO._verifyId(idTrail);
 };
 
 const validateBodyTrail = (titulo, descricao) => {
-  if (titulo !== undefined && descricao !== descricao) {
+  if (titulo && descricao !== null && descricao !== undefined) {
     return true;
   } else {
     throw new ErrStatus("Há alguma informação faltando no body.", 400);
