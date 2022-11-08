@@ -90,14 +90,14 @@ npm start
 - Funcionalidades extras:
   - [x] Buscar conteudos por id da trilha;
 
-##### CRUD da Entidade Conteudo-Usuario
+##### CRUD da Entidade /conteudo-usuario
 
 - [x] Create;
 - [ ] Read;
 - [ ] Update;
 - [x] Delete;
 
-##### CRUD da Entidade Módulos
+##### CRUD da Entidade /modulos
 
 - [ ] Create;
 - [ ] Read;
