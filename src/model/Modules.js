@@ -1,8 +1,8 @@
 class Modules {
-  constructor(titulo, descricao, moduloId) {
+  constructor(titulo, descricao, trilhaId) {
     this.titulo = titulo;
     this.descricao = descricao;
-    this.moduloId = moduloId;
+    this.trilhaId = trilhaId;
   }
 }
 
