@@ -22,7 +22,7 @@ const usersController = (app, dbUsers) => {
     try {
       await usersDAO._verifyId(id);
       const user = await usersDAO.getById(id);
-      res.status(201).json(user);
+      res.status(200).json(user);
     } catch (e) {
       res.status(404).json({
         msg: e.message,
@@ -110,9 +110,9 @@ const usersController = (app, dbUsers) => {
     try {
       await usersDAO._verifyId(id);
       const deleteUser = await usersDAO.deleteUser(id);
-      res.status(201).json(deleteUser);
+      res.status(200).json(deleteUser);
     } catch (e) {
-      res.status(400).json({
+      res.status(404).json({
         msg: e.message,
         error: true,
       });

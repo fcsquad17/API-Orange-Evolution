@@ -122,3 +122,5 @@ class ModulesDAO {
     return modulo;
   };
 }
+
+export default ModulesDAO;
