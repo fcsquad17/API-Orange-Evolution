@@ -9,15 +9,7 @@ const validateBodyContent = (
   tag,
   moduloId
 ) => {
-  if (
-    titulo !== undefined &&
-    tipo !== undefined &&
-    duracao !== undefined &&
-    fonte !== undefined &&
-    descricao !== undefined &&
-    tag !== undefined &&
-    moduloId !== undefined
-  ) {
+  if (titulo && tipo && duracao && fonte && descricao && tag && moduloId) {
     return true;
   } else {
     throw new ErrStatus("Há alguma informação faltando no body.", 400);
