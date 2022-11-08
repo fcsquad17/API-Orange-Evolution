@@ -2,7 +2,7 @@ import ContentDAO from "../DAO/content-DAO.js";
 import { ContentsUsers, Contents } from "../model/Contents.js";
 import { validateTrailId } from "../service/validateTrails.js";
 import { validateUserId } from "../service/validateUsers.js";
-import { validadeModuleId } from "../service/validateModules.js";
+import { validateModuleId } from "../service/validateModules.js";
 import validateBodyContent from "../service/validateContents.js";
 
 const contentController = (app, db) => {
