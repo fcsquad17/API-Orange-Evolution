@@ -24,6 +24,25 @@ class ContentDAO {
     });
   };
 
+  getByIdModule = (idModule) => {
+    return new Promise((resolve, reject) => {
+      this.db.all(
+        "SELECT CONTEUDOS.ID, CONTEUDOS.TITULO, CONTEUDOS.TIPO, CONTEUDOS.DURACAO, CONTEUDOS.FONTE, CONTEUDOS.DESCRICAO, CONTEUDOS.TAG, CONTEUDOS.MODULO_ID FROM CONTEUDOS INNER JOIN MODULOS ON MODULOS.ID = CONTEUDOS.MODULO_ID WHERE CONTEUDOS.ID = ?",
+        idModule,
+        (error, rows) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve({
+              conteudos: rows,
+              error: false,
+            });
+          }
+        }
+      );
+    });
+  };
+
   postContent = (newContent) => {
     return new Promise((resolve, reject) => {
       this.db.run(
