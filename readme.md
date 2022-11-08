@@ -64,7 +64,7 @@ npm start
 
 ### Features das entidades
 
-##### CRUD da Entidade Usuários
+##### CRUD da Entidade /usuarios
 
 - [x] Create;
 - [x] Read;
@@ -74,14 +74,14 @@ npm start
   - [x] Login;
   - [x] Buscar trilhas do usuário;
 
-##### CRUD da Entidade Trilhas
+##### CRUD da Entidade /trilhas
 
 - [x] Create;
 - [x] Read;
 - [x] Update;
 - [x] Delete;
 
-##### CRUD da Entidade Conteudos
+##### CRUD da Entidade /conteudos
 
 - [x] Create;
 - [x] Read;
