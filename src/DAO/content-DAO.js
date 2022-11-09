@@ -24,6 +24,46 @@ class ContentDAO {
     });
   };
 
+  getAllContentDoneByUserIdAndTrailId = (idUser, idTrail) => {
+    return new Promise((resolve, reject) => {
+      this.db.all(
+        "SELECT CONTEUDOS.ID FROM CONTEUDOS INNER JOIN USUARIO_CONTEUDO ON CONTEUDOS.ID = CONTEUDO_ID INNER JOIN MODULOS ON MODULOS.ID = MODULO_ID INNER JOIN TRILHAS ON TRILHAS.ID = TRILHA_ID WHERE DONE = 1 AND TRILHAS.ID = ? AND USUARIO_ID = ? GROUP BY CONTEUDOS.ID",
+        idTrail,
+        idUser,
+        (error, rows) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve({
+              conteudos: rows,
+              error: false,
+            });
+          }
+        }
+      );
+    });
+  };
+
+  getAllContentDoneByUserIdAndModuleId = (idUser, idModule) => {
+    return new Promise((resolve, reject) => {
+      this.db.all(
+        "SELECT CONTEUDOS.ID FROM CONTEUDOS INNER JOIN USUARIO_CONTEUDO ON CONTEUDOS.ID = CONTEUDO_ID INNER JOIN MODULOS ON MODULOS.ID = MODULO_ID INNER JOIN TRILHAS ON TRILHAS.ID = TRILHA_ID WHERE DONE = 1 AND MODULOS.ID = ? AND USUARIO_ID = ? GROUP BY CONTEUDOS.ID",
+        idModule,
+        idUser,
+        (error, rows) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve({
+              conteudos: rows,
+              error: false,
+            });
+          }
+        }
+      );
+    });
+  };
+
   getByIdModule = (idModule) => {
     return new Promise((resolve, reject) => {
       this.db.all(
