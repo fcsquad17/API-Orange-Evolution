@@ -4,6 +4,7 @@ import { validateTrailId } from "../service/validateTrails.js";
 import { validateUserId } from "../service/validateUsers.js";
 import { validateModuleId } from "../service/validateModules.js";
 import validateBodyContent from "../service/validateContents.js";
+import ErrStatus from "../model/Error.js";
 
 const contentController = (app, db) => {
   const contentDAO = new ContentDAO(db);
@@ -64,6 +65,66 @@ const contentController = (app, db) => {
       });
     }
   });
+
+  app.get(
+    "/usuario-conteudo/conteudo-concluido/idUsuario/:idUser/idTrilha/:idTrail",
+    async (req, res) => {
+      const idUser = req.params.idUser;
+      const idTrail = req.params.idTrail;
+
+      try {
+        await validateTrailId(idTrail);
+        await validateUserId(idUser);
+        const contents = await contentDAO.getAllContentDoneByUserIdAndTrailId(
+          idUser,
+          idTrail
+        );
+        if (contents.conteudos.length !== 0) {
+          res.status(200).json(contents);
+        } else {
+          throw new ErrStatus(
+            "O usuario não tem conteudos marcados como feito dessa trilha",
+            400
+          );
+        }
+      } catch (e) {
+        res.status(e.status).json({
+          msg: e.message,
+          error: true,
+        });
+      }
+    }
+  );
+
+  app.get(
+    "/usuario-conteudo/conteudo-concluido/idUsuario/:idUser/idModulo/:idModule",
+    async (req, res) => {
+      const idUser = req.params.idUser;
+      const idModule = req.params.idModule;
+
+      try {
+        await validateModuleId(idModule);
+        await validateUserId(idUser);
+        const contents = await contentDAO.getAllContentDoneByUserIdAndModuleId(
+          idUser,
+          idModule
+        );
+        if (contents.conteudos.length !== 0) {
+          res.status(200).json(contents);
+        } else {
+          throw new ErrStatus(
+            "O usuario não tem conteudos marcados como feito desse módulo",
+            400
+          );
+        }
+      } catch (e) {
+        res.status(e.status).json({
+          msg: e.message,
+          error: true,
+        });
+      }
+    }
+  );
 
   app.post("/conteudos", async (req, res) => {
     const body = req.body;
