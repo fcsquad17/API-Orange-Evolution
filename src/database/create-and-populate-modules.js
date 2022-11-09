@@ -18,15 +18,16 @@ CREATE TABLE IF NOT EXISTS "MODULOS" (
 const ADD_MODULOS_DATA = `
 INSERT INTO "MODULOS" (TITULO, DESCRICAO, TRILHA_ID)
 VALUES 
-    ("O inicio", "a", 1),
-    ("Conceitos básicos", "a", 1),
-    ("Opcional", "a", 1),
-    ("O inicio", "a", 2),
-    ("Conceitos básicos", "a", 2),
-    ("Opcional", "a", 2),
-    ("O inicio", "a", 3),
-    ("Conceitos básicos", "a", 3),
-    ("Opcional", "a", 3)
+    ("O inicio", "Aqui é a base de todas as trilhas, para você aprender mais sobre todos os caminhos da tecnologia.", 1),
+    ("Conceitos básicos", "Bem vindo a trilha de desenvolvimento full stack! Aqui irá aprender mais sobre os conceitos base da programação e do desenvolvimento web.", 1),
+    ("Opcional", "Esse módulo é designado a conteudos opcionais recomendados por nós!", 1),
+    ("O inicio", "Aqui é a base de todas as trilhas, para você aprender mais sobre todos os caminhos da tecnologia.", 2),
+    ("Fundamentos de UX (User Experience) ", "Bem vindo a trilha de UX/UI! Aqui irá aprender mais sobre os conceitos base da 'User Experience'.", 2),
+    ("Fundamentos de UI (User Interface)", "Aqui irá aprender os conceitos base da 'User Interface'.", 2),
+    ("Opcional", "Esse módulo é designado a conteudos opcionais recomendados por nós!", 2),
+    ("O inicio", "Aqui é a base de todas as trilhas, para você aprender mais sobre todos os caminhos da tecnologia.", 3),
+    ("Conceitos básicos", "Bem vindo a trilha de Quality Assurance! Aqui irá aprender mais sobre os conceitos base da programação e do QA.", 3),
+    ("Opcional", "Esse módulo é designado a conteudos opcionais recomendados por nós!", 3)
 `;
 
 function criaTabelaMdl() {
