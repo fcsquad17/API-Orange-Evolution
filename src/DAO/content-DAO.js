@@ -79,6 +79,26 @@ class ContentDAO {
     });
   };
 
+  getLastContentDoneByUserIdAndModuleId = (idUser, idModule) => {
+    return new Promise((resolve, reject) => {
+      this.db.get(
+        "SELECT CONTEUDOS.ID FROM CONTEUDOS INNER JOIN USUARIO_CONTEUDO ON CONTEUDOS.ID = CONTEUDO_ID INNER JOIN MODULOS ON MODULOS.ID = MODULO_ID INNER JOIN TRILHAS ON TRILHAS.ID = TRILHA_ID WHERE DONE = 1 AND MODULOS.ID = ? AND USUARIO_ID = ? GROUP BY CONTEUDOS.ID DESC LIMIT 1",
+        idModule,
+        idUser,
+        (error, row) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve({
+              conteudo: row,
+              error: false,
+            });
+          }
+        }
+      );
+    });
+  };
+
   getByIdModule = (idModule) => {
     return new Promise((resolve, reject) => {
       this.db.all(
