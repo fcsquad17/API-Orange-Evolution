@@ -137,6 +137,32 @@ const contentController = (app, db) => {
     }
   );
 
+  app.get(
+    "/usuario-conteudo/ultimo-concluido/idUsuario/:idUser/idModulo/:idModule",
+    async (req, res) => {
+      const idUser = req.params.idUser;
+      const idModule = req.params.idModule;
+
+      try {
+        await validateModuleId(idModule);
+        await validateUserId(idUser);
+        res
+          .status(200)
+          .json(
+            await contentDAO.getLastContentDoneByUserIdAndModuleId(
+              idUser,
+              idModule
+            )
+          );
+      } catch (e) {
+        res.status(e.status).json({
+          msg: e.message,
+          error: true,
+        });
+      }
+    }
+  );
+
   app.post("/conteudos", async (req, res) => {
     const body = req.body;
 
