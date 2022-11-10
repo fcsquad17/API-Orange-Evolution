@@ -206,6 +206,25 @@ class ContentDAO {
     });
   };
 
+  getFirstContentOfModule = (idModule) => {
+    return new Promise((resolve, reject) => {
+      this.db.get(
+        "SELECT CONTEUDOS.ID FROM CONTEUDOS INNER JOIN MODULOS ON MODULO_ID = MODULOS.ID WHERE MODULOS.ID = ? LIMIT 1",
+        idModule,
+        (error, row) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve({
+              conteudo: row,
+              error: false,
+            });
+          }
+        }
+      );
+    });
+  };
+
   postContentUser = (idUser, idContent, done) => {
     return new Promise((resolve, reject) => {
       this.db.run(
