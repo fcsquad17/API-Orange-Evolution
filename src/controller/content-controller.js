@@ -66,6 +66,17 @@ const contentController = (app, db) => {
     }
   });
 
+  app.get("/usuario-conteudo", async (req, res) => {
+    try {
+      res.status(200).json(await contentDAO.getAllUserContent());
+    } catch (e) {
+      res.status(404).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
   app.get(
     "/usuario-conteudo/conteudo-concluido/idUsuario/:idUser/idTrilha/:idTrail",
     async (req, res) => {
