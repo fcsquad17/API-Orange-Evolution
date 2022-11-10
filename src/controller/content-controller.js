@@ -37,6 +37,19 @@ const contentController = (app, db) => {
     }
   });
 
+  app.get("/conteudos/idModulo/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+      await validateModuleId(id);
+      res.status(200).json(await contentDAO.getFirstContentOfModule(id));
+    } catch (e) {
+      res.status(404).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
   app.get("/conteudos/porIdTrilha/:idTrail", async (req, res) => {
     const idTrail = req.params.idTrail;
 
