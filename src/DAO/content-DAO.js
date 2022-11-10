@@ -24,6 +24,21 @@ class ContentDAO {
     });
   };
 
+  getAllUserContent = () => {
+    return new Promise((resolve, reject) => {
+      this.db.all("SELECT * FROM USUARIO_CONTEUDO", (error, rows) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve({
+            conteudos: rows,
+            error: false,
+          });
+        }
+      });
+    });
+  };
+
   getAllContentDoneByUserIdAndTrailId = (idUser, idTrail) => {
     return new Promise((resolve, reject) => {
       this.db.all(
