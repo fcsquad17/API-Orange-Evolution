@@ -155,7 +155,7 @@ const contentController = (app, db) => {
             )
           );
       } catch (e) {
-        res.status(e.status).json({
+        res.status(404).json({
           msg: e.message,
           error: true,
         });
