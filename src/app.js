@@ -9,12 +9,7 @@ import modulesController from "./controller/modules-controller.js";
 const app = express();
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
-  })
-);
+app.use(cors());
 
 trilhasController(app, dbSq);
 contentController(app, dbSq);
