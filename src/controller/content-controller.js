@@ -103,16 +103,9 @@ const contentController = (app, db) => {
           idUser,
           idTrail
         );
-        if (contents.conteudos.length !== 0) {
-          res.status(200).json(contents);
-        } else {
-          throw new ErrStatus(
-            "O usuario não tem conteudos marcados como feito dessa trilha",
-            400
-          );
-        }
+        res.status(200).json(contents);
       } catch (e) {
-        res.status(e.status).json({
+        res.status(404).json({
           msg: e.message,
           error: true,
         });
@@ -133,16 +126,9 @@ const contentController = (app, db) => {
           idUser,
           idModule
         );
-        if (contents.conteudos.length !== 0) {
-          res.status(200).json(contents);
-        } else {
-          throw new ErrStatus(
-            "O usuario não tem conteudos marcados como feito desse módulo",
-            400
-          );
-        }
+        res.status(200).json(contents);
       } catch (e) {
-        res.status(e.status).json({
+        res.status(404).json({
           msg: e.message,
           error: true,
         });
@@ -218,17 +204,6 @@ const contentController = (app, db) => {
   app.put("/conteudos/id/:id", async (req, res) => {
     const id = req.params.id;
     const body = req.body;
-
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-    );
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "X-Requested-With,content-type"
-    );
-    res.setHeader("Access-Control-Allow-Credentials", true);
 
     try {
       if (validateBodyContent(...Object.values(body))) {
