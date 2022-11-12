@@ -13,8 +13,7 @@ const contentController = (app, db) => {
     const id = req.params.id;
 
     try {
-      const content = await contentDAO._verifyId(id);
-      res.status(200).json(content);
+      res.status(200).json(await contentDAO._verifyId(id));
     } catch (e) {
       res.status(404).json({
         msg: e.message,
@@ -27,8 +26,7 @@ const contentController = (app, db) => {
     const id = req.params.id;
     try {
       await validateTrailId(id);
-      const content = await contentDAO.getFirstContent(id);
-      res.status(200).json(content);
+      res.status(200).json(await contentDAO.getFirstContent(id));
     } catch (e) {
       res.status(404).json({
         msg: e.message,
@@ -55,8 +53,7 @@ const contentController = (app, db) => {
 
     try {
       await validateTrailId(idTrail);
-      const content = await contentDAO.getAllContentByTrailId(idTrail);
-      res.status(200).json(content);
+      res.status(200).json(await contentDAO.getAllContentByTrailId(idTrail));
     } catch (e) {
       res.status(404).json({
         msg: e.message,
@@ -99,11 +96,14 @@ const contentController = (app, db) => {
       try {
         await validateTrailId(idTrail);
         await validateUserId(idUser);
-        const contents = await contentDAO.getAllContentDoneByUserIdAndTrailId(
-          idUser,
-          idTrail
-        );
-        res.status(200).json(contents);
+        res
+          .status(200)
+          .json(
+            await contentDAO.getAllContentDoneByUserIdAndTrailId(
+              idUser,
+              idTrail
+            )
+          );
       } catch (e) {
         res.status(404).json({
           msg: e.message,
@@ -122,11 +122,14 @@ const contentController = (app, db) => {
       try {
         await validateModuleId(idModule);
         await validateUserId(idUser);
-        const contents = await contentDAO.getAllContentDoneByUserIdAndModuleId(
-          idUser,
-          idModule
-        );
-        res.status(200).json(contents);
+        res
+          .status(200)
+          .json(
+            await contentDAO.getAllContentDoneByUserIdAndModuleId(
+              idUser,
+              idModule
+            )
+          );
       } catch (e) {
         res.status(404).json({
           msg: e.message,
@@ -209,8 +212,7 @@ const contentController = (app, db) => {
       if (validateBodyContent(...Object.values(body))) {
         await contentDAO._verifyId(id);
         const contentUpdated = new Contents(...Object.values(body));
-        const updateContent = await contentDAO.putContent(id, contentUpdated);
-        res.status(200).json(updateContent);
+        res.status(200).json(await contentDAO.putContent(id, contentUpdated));
       }
     } catch (e) {
       res.status(e.status).json({
@@ -225,8 +227,7 @@ const contentController = (app, db) => {
 
     try {
       await contentDAO._verifyId(id);
-      const deleteContent = await contentDAO.deleteContent(id);
-      res.status(200).json(deleteContent);
+      res.status(200).json(await contentDAO.deleteContent(id));
     } catch (e) {
       res.status(404).json({
         msg: e.message,
@@ -244,12 +245,9 @@ const contentController = (app, db) => {
       try {
         await validateUserId(idUser);
         await contentDAO._verifyId(idContent);
-        const deleteContentUser = await contentDAO.deleteContentUser(
-          idUser,
-          idContent
-        );
-
-        res.status(200).json(deleteContentUser);
+        res
+          .status(200)
+          .json(await contentDAO.deleteContentUser(idUser, idContent));
       } catch (e) {
         res.status(404).json({
           msg: e.message,

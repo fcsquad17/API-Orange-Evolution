@@ -20,8 +20,7 @@ const trilhasController = (app, dbTrilhas) => {
     const id = req.params.id;
     try {
       await trilhasDAO._verifyId(id);
-      const trilha = await trilhasDAO.getById(id);
-      res.status(201).json(trilha);
+      res.status(201).json(await trilhasDAO.getById(id));
     } catch (e) {
       res.status(404).json({
         msg: e.message,
