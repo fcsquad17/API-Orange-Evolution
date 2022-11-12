@@ -50,17 +50,6 @@ const trilhasController = (app, dbTrilhas) => {
     const body = req.body;
     const id = req.params.id;
 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-    );
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "X-Requested-With,content-type"
-    );
-    res.setHeader("Access-Control-Allow-Credentials", true);
-
     try {
       if (validateBodyTrail(...Object.values(body))) {
         await trilhasDAO._verifyId(id);
