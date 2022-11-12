@@ -16,7 +16,7 @@ const ADD_TRILHAS_DATA = `
 INSERT INTO "TRILHAS" (TITULO, DESCRICAO)
 VALUES 
     ('Desenvolvimento Full-Stack', 'Essa trilha foi montada pensando em quem está começando na área, ou passando por uma migração de carreira e ainda não sabe exatamente o que é esse mundo. Então, aperta o cinto e vem com a gente nessa jornada!'),
-    ('UX Design', 'Essa trilha foi montada pensando em quem está começando na área, ou passando por uma migração de carreira e ainda não sabe exatamente o que é esse mundo. Então, aperta o cinto e vem com a gente nessa jornada!'),
+    ('UX/UI Design', 'Essa trilha foi montada pensando em quem está começando na área, ou passando por uma migração de carreira e ainda não sabe exatamente o que é esse mundo. Então, aperta o cinto e vem com a gente nessa jornada!'),
     ('Quality Assurance', 'Essa trilha foi montada pensando em quem está começando na área, ou passando por uma migração de carreira e ainda não sabe exatamente o que é esse mundo. Então, aperta o cinto e vem com a gente nessa jornada!')
 `;
 
