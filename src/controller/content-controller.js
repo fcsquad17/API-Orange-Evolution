@@ -4,7 +4,6 @@ import { validateTrailId } from "../service/validateTrails.js";
 import { validateUserId } from "../service/validateUsers.js";
 import { validateModuleId } from "../service/validateModules.js";
 import validateBodyContent from "../service/validateContents.js";
-import ErrStatus from "../model/Error.js";
 
 const contentController = (app, db) => {
   const contentDAO = new ContentDAO(db);
