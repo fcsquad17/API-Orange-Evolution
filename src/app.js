@@ -3,8 +3,8 @@ import cors from "cors";
 import trilhasController from "./controller/trilhas-controller.js";
 import usersController from "./controller/users-controller.js";
 import contentController from "./controller/content-controller.js";
-import dbSq from "./database/db-sqlite.js";
 import modulesController from "./controller/modules-controller.js";
+import dbSq from "./database/db-sqlite.js";
 
 const app = express();
 
