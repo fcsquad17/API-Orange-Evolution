@@ -59,15 +59,14 @@ class ModulesDAO {
       this.db.run(
         "INSERT INTO MODULOS VALUES(?, ?, ?, ?)",
         null,
-        newModule.titulo,
-        newModule.descricao,
-        newModule.trilhaId,
+        ...Object.values(newModule),
         (error) => {
           if (error) {
             reject(error);
           } else {
             resolve({
               msg: "Modulo criado com sucesso!",
+              modulo: newModule,
               error: false,
             });
           }
@@ -80,9 +79,7 @@ class ModulesDAO {
     return new Promise((resolve, reject) => {
       this.db.run(
         "UPDATE MODULOS SET TITULO = ?, DESCRICAO = ?, TRILHA_ID = ? WHERE ID = ?",
-        module.titulo,
-        module.descricao,
-        module.trilhaId,
+        ...Object.values(module),
         id,
         (error) => {
           if (error) {

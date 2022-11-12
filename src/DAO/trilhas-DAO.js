@@ -44,8 +44,7 @@ class TrilhasDAO {
       this.dbTrilhas.run(
         "INSERT INTO TRILHAS VALUES(?, ?, ?)",
         null,
-        newTrail.titulo,
-        newTrail.descricao,
+        ...Object.values(newTrail),
         (error) => {
           if (error) {
             reject(error);
@@ -65,8 +64,7 @@ class TrilhasDAO {
     return new Promise((resolve, reject) => {
       this.dbTrilhas.run(
         "UPDATE TRILHAS SET TITULO = ?, DESCRICAO = ? WHERE ID = ?",
-        trail.titulo,
-        trail.descricao,
+        ...Object.values(trail),
         id,
         (error) => {
           if (error) {
