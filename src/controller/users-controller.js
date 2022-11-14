@@ -116,7 +116,9 @@ const usersController = (app, dbUsers) => {
       if (validateBodyUser(...Object.values(body))) {
         await usersDAO._verifyId(id);
         const userUpdated = new Users(...Object.values(body));
-        res.status(200).json(await usersDAO.putUser(id, userUpdated));
+        if (await usersDAO._repeatedEmail(userUpdated.email)) {
+          res.status(200).json(await usersDAO.putUser(id, userUpdated));
+        }
       }
     } catch (e) {
       res.status(e.status).json({
