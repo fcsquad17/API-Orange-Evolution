@@ -2,6 +2,7 @@ import ContentDAO from "../DAO/content-DAO.js";
 import { ContentsUsers, Contents } from "../model/Contents.js";
 import { validateTrailId } from "../service/validateTrails.js";
 import { validateUserId } from "../service/validateUsers.js";
+import { validateModuleId } from "../service/validateModules.js";
 import validateBodyContent from "../service/validateContents.js";
 
 const contentController = (app, db) => {
@@ -11,8 +12,7 @@ const contentController = (app, db) => {
     const id = req.params.id;
 
     try {
-      const content = await contentDAO._verifyId(id);
-      res.status(200).json(content);
+      res.status(200).json(await contentDAO._verifyId(id));
     } catch (e) {
       res.status(404).json({
         msg: e.message,
@@ -25,8 +25,20 @@ const contentController = (app, db) => {
     const id = req.params.id;
     try {
       await validateTrailId(id);
-      const content = await contentDAO.getFirstContent(id);
-      res.status(200).json(content);
+      res.status(200).json(await contentDAO.getFirstContent(id));
+    } catch (e) {
+      res.status(404).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
+  app.get("/conteudos/idModulo/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+      await validateModuleId(id);
+      res.status(200).json(await contentDAO.getFirstContentOfModule(id));
     } catch (e) {
       res.status(404).json({
         msg: e.message,
@@ -40,8 +52,7 @@ const contentController = (app, db) => {
 
     try {
       await validateTrailId(idTrail);
-      const content = await contentDAO.getAllContentByTrailId(idTrail);
-      res.status(200).json(content);
+      res.status(200).json(await contentDAO.getAllContentByTrailId(idTrail));
     } catch (e) {
       res.status(404).json({
         msg: e.message,
@@ -49,6 +60,109 @@ const contentController = (app, db) => {
       });
     }
   });
+
+  app.get("/conteudos/porIdModulo/:idModule", async (req, res) => {
+    const idModule = req.params.idModule;
+
+    try {
+      await validateModuleId(idModule);
+      res.status(200).json(await contentDAO.getByIdModule(idModule));
+    } catch (e) {
+      res.status(404).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
+  app.get("/usuario-conteudo", async (req, res) => {
+    try {
+      res.status(200).json(await contentDAO.getAllUserContent());
+    } catch (e) {
+      res.status(404).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
+  app.get(
+    "/usuario-conteudo/conteudo-concluido/idUsuario/:idUser/idTrilha/:idTrail",
+    async (req, res) => {
+      const idUser = req.params.idUser;
+      const idTrail = req.params.idTrail;
+
+      try {
+        await validateTrailId(idTrail);
+        await validateUserId(idUser);
+        res
+          .status(200)
+          .json(
+            await contentDAO.getAllContentDoneByUserIdAndTrailId(
+              idUser,
+              idTrail
+            )
+          );
+      } catch (e) {
+        res.status(404).json({
+          msg: e.message,
+          error: true,
+        });
+      }
+    }
+  );
+
+  app.get(
+    "/usuario-conteudo/conteudo-concluido/idUsuario/:idUser/idModulo/:idModule",
+    async (req, res) => {
+      const idUser = req.params.idUser;
+      const idModule = req.params.idModule;
+
+      try {
+        await validateModuleId(idModule);
+        await validateUserId(idUser);
+        res
+          .status(200)
+          .json(
+            await contentDAO.getAllContentDoneByUserIdAndModuleId(
+              idUser,
+              idModule
+            )
+          );
+      } catch (e) {
+        res.status(404).json({
+          msg: e.message,
+          error: true,
+        });
+      }
+    }
+  );
+
+  app.get(
+    "/usuario-conteudo/ultimo-concluido/idUsuario/:idUser/idModulo/:idModule",
+    async (req, res) => {
+      const idUser = req.params.idUser;
+      const idModule = req.params.idModule;
+
+      try {
+        await validateModuleId(idModule);
+        await validateUserId(idUser);
+        res
+          .status(200)
+          .json(
+            await contentDAO.getLastContentDoneByUserIdAndModuleId(
+              idUser,
+              idModule
+            )
+          );
+      } catch (e) {
+        res.status(404).json({
+          msg: e.message,
+          error: true,
+        });
+      }
+    }
+  );
 
   app.post("/conteudos", async (req, res) => {
     const body = req.body;
@@ -97,8 +211,7 @@ const contentController = (app, db) => {
       if (validateBodyContent(...Object.values(body))) {
         await contentDAO._verifyId(id);
         const contentUpdated = new Contents(...Object.values(body));
-        const updateContent = await contentDAO.putContent(id, contentUpdated);
-        res.status(200).json(updateContent);
+        res.status(200).json(await contentDAO.putContent(id, contentUpdated));
       }
     } catch (e) {
       res.status(e.status).json({
@@ -113,8 +226,7 @@ const contentController = (app, db) => {
 
     try {
       await contentDAO._verifyId(id);
-      const deleteContent = await contentDAO.deleteContent(id);
-      res.status(200).json(deleteContent);
+      res.status(200).json(await contentDAO.deleteContent(id));
     } catch (e) {
       res.status(404).json({
         msg: e.message,
@@ -132,12 +244,9 @@ const contentController = (app, db) => {
       try {
         await validateUserId(idUser);
         await contentDAO._verifyId(idContent);
-        const deleteContentUser = await contentDAO.deleteContentUser(
-          idUser,
-          idContent
-        );
-
-        res.status(200).json(deleteContentUser);
+        res
+          .status(200)
+          .json(await contentDAO.deleteContentUser(idUser, idContent));
       } catch (e) {
         res.status(404).json({
           msg: e.message,

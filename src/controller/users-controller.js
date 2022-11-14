@@ -21,8 +21,7 @@ const usersController = (app, dbUsers) => {
     const id = req.params.id;
     try {
       await usersDAO._verifyId(id);
-      const user = await usersDAO.getById(id);
-      res.status(201).json(user);
+      res.status(200).json(await usersDAO.getById(id));
     } catch (e) {
       res.status(404).json({
         msg: e.message,
@@ -35,8 +34,7 @@ const usersController = (app, dbUsers) => {
     const email = req.params.email;
     try {
       await usersDAO._verifyEmail(email);
-      const user = await usersDAO.getByEmail(email);
-      res.status(201).json(user);
+      res.status(201).json(await usersDAO.getByEmail(email));
     } catch (e) {
       res.status(404).json({
         msg: e.message,
@@ -85,40 +83,6 @@ const usersController = (app, dbUsers) => {
     }
   });
 
-  app.put("/usuarios/id/:id", async (req, res) => {
-    const id = req.params.id;
-    const body = req.body;
-
-    try {
-      if (validateBodyUser(...Object.values(body))) {
-        await usersDAO._verifyId(id);
-        const userUpdated = new Users(...Object.values(body));
-        const updateUser = await usersDAO.putUser(id, userUpdated);
-        res.status(200).json(updateUser);
-      }
-    } catch (e) {
-      res.status(e.status).json({
-        msg: e.message,
-        error: true,
-      });
-    }
-  });
-
-  app.delete("/usuarios/id/:id", async (req, res) => {
-    const id = req.params.id;
-
-    try {
-      await usersDAO._verifyId(id);
-      const deleteUser = await usersDAO.deleteUser(id);
-      res.status(201).json(deleteUser);
-    } catch (e) {
-      res.status(400).json({
-        msg: e.message,
-        error: true,
-      });
-    }
-  });
-
   app.post("/usuarios/login", async (req, res) => {
     const { email, senha } = req.body;
 
@@ -138,6 +102,40 @@ const usersController = (app, dbUsers) => {
       });
     } catch (e) {
       res.status(e.status).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
+  app.put("/usuarios/id/:id", async (req, res) => {
+    const id = req.params.id;
+    const body = req.body;
+
+    try {
+      if (validateBodyUser(...Object.values(body))) {
+        await usersDAO._verifyId(id);
+        const userUpdated = new Users(...Object.values(body));
+        if (await usersDAO._repeatedEmail(userUpdated.email)) {
+          res.status(200).json(await usersDAO.putUser(id, userUpdated));
+        }
+      }
+    } catch (e) {
+      res.status(e.status).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
+  app.delete("/usuarios/id/:id", async (req, res) => {
+    const id = req.params.id;
+
+    try {
+      await usersDAO._verifyId(id);
+      res.status(200).json(await usersDAO.deleteUser(id));
+    } catch (e) {
+      res.status(404).json({
         msg: e.message,
         error: true,
       });
