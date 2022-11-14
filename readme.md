@@ -913,6 +913,5 @@ Exemplo da resposta esperada:
 
 ## Meu time 🥇
 
-<img src="https://media-exp1.licdn.com/dms/image/D4D03AQG2u97vSTMEHw/profile-displayphoto-shrink_200_200/0/1664583517795?e=1673481600&v=beta&t=DsTeCXuJg8p-NSveBftATVMDXBpj6NxTNC_i5EXScdo" />
-
-<a href="https://www.linkedin.com/in/hudson-lima-uchoa/" >Hudson Lima</a>
+| [<img src="https://avatars.githubusercontent.com/u/93748488?v=4" width=115><br><sub>Hudson Lima</sub>](https://github.com/camilafernanda) | [<img src="https://avatars.githubusercontent.com/u/86809682?v=4" width=115><br><sub>Bruno Lupi</sub>](https://github.com/guilhermeonrails) | [<img src="https://avatars.githubusercontent.com/u/102756522?v=4" width=115><br><sub>Walter dos Santos</sub>](https://github.com/alexfelipe) |
+| :---------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------: |
