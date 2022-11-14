@@ -3,6 +3,8 @@
 ![Badge da Orange Juice](https://img.shields.io/badge/ORANGE-JUICE-orange?style=for-the-badge&logo=E) ![Badge issues](https://img.shields.io/github/issues/fcsquad17/API-Orange-Evolution?style=for-the-badge) ![Badge da licença](https://img.shields.io/github/license/fcsquad17/API-Orange-Evolution?style=for-the-badge)
 
  <p align="justify">Projeto da quarta edição do Hackathon da Orange Juice. O nosso objetivo com essa API é desenvolver uma comunicação eficiente do banco de dados com a plataforma de estudos Orange Evolution.
+
+ <p>Projeto feito utilizando Node.js, o banco de dados embutido SQLITE3 e a framework Express.js</p>
 <p>Conheça a comunidade da Orange Juice e a plataforma de estudos que nos baseamos: <a href="https://digital.fcamara.com.br/orangejuice">Orange Juice</a></p>
 
 > :construction: Projeto em construção :construction:
