@@ -168,7 +168,7 @@ class UsersDAO {
     if (usuario.usuario === undefined) {
       return true;
     } else {
-      throw new Error(`Email já está cadastrado.`);
+      throw new ErrStatus(`Email já está cadastrado.`, 400);
     }
   };
 }
