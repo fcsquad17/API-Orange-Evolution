@@ -24,7 +24,7 @@ INSERT INTO "USUARIOS" (NOME_COMPLETO, EMAIL, SENHA, ADMIN)
 VALUES 
     ('Carlos Alberto Albuquerque', 'carlos.alb12@gmail.com' , '@12345679', FALSE),
     ('Olívia Ribeiro Ferreira', 'olivia.rib1@outlook.com' , '@12345679', FALSE),
-    ('Luiz Rodrigo Lima Mendes', 'luiz.rodrigo223@gmail.com' , '@12345679', TRUE)
+    ('admin', 'admin@admin.com' , 'admin', TRUE)
 `;
 
 function criaTabelaUsr() {
