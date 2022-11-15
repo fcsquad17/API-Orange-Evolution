@@ -2,11 +2,12 @@ import Modules from "../model/Modules.js";
 import ModulesDAO from "../DAO/modules-DAO.js";
 import { validateBodyModule } from "../service/validateModules.js";
 import { validateTrailId } from "../service/validateTrails.js";
+import { ensureAuthenticated } from "../middleware/ensureAuth.js";
 
 const modulesController = (app, db) => {
   const modulesDAO = new ModulesDAO(db);
 
-  app.get("/modulos", async (req, res) => {
+  app.get("/modulos", ensureAuthenticated, async (req, res) => {
     try {
       res.status(200).json(await modulesDAO.getAll());
     } catch (e) {
@@ -17,7 +18,7 @@ const modulesController = (app, db) => {
     }
   });
 
-  app.get("/modulos/id/:id", async (req, res) => {
+  app.get("/modulos/id/:id", ensureAuthenticated, async (req, res) => {
     const id = req.params.id;
 
     try {
@@ -31,21 +32,25 @@ const modulesController = (app, db) => {
     }
   });
 
-  app.get("/modulos/porIdTrilha/:idTrail", async (req, res) => {
-    const idTrail = req.params.idTrail;
+  app.get(
+    "/modulos/porIdTrilha/:idTrail",
+    ensureAuthenticated,
+    async (req, res) => {
+      const idTrail = req.params.idTrail;
 
-    try {
-      await validateTrailId(idTrail);
-      res.status(200).json(await modulesDAO.getByIdTrail(idTrail));
-    } catch (e) {
-      res.status(404).json({
-        msg: e.message,
-        error: true,
-      });
+      try {
+        await validateTrailId(idTrail);
+        res.status(200).json(await modulesDAO.getByIdTrail(idTrail));
+      } catch (e) {
+        res.status(404).json({
+          msg: e.message,
+          error: true,
+        });
+      }
     }
-  });
+  );
 
-  app.post("/modulos", async (req, res) => {
+  app.post("/modulos", ensureAuthenticated, async (req, res) => {
     const body = req.body;
 
     try {
@@ -61,7 +66,7 @@ const modulesController = (app, db) => {
     }
   });
 
-  app.put("/modulos/id/:id", async (req, res) => {
+  app.put("/modulos/id/:id", ensureAuthenticated, async (req, res) => {
     const id = req.params.id;
     const body = req.body;
 
@@ -79,7 +84,7 @@ const modulesController = (app, db) => {
     }
   });
 
-  app.delete("/modulos/id/:id", async (req, res) => {
+  app.delete("/modulos/id/:id", ensureAuthenticated, async (req, res) => {
     const id = req.params.id;
 
     try {

@@ -1,11 +1,12 @@
 import TrilhasDAO from "../DAO/trilhas-DAO.js";
+import { ensureAuthenticated } from "../middleware/ensureAuth.js";
 import Trails from "../model/Trails.js";
 import { validateBodyTrail } from "../service/validateTrails.js";
 
 const trilhasController = (app, dbTrilhas) => {
   const trilhasDAO = new TrilhasDAO(dbTrilhas);
 
-  app.get("/trilhas", async (req, res) => {
+  app.get("/trilhas", ensureAuthenticated, async (req, res) => {
     try {
       res.status(200).json(await trilhasDAO.getAll());
     } catch (e) {
@@ -16,7 +17,7 @@ const trilhasController = (app, dbTrilhas) => {
     }
   });
 
-  app.get("/trilhas/id/:id", async (req, res) => {
+  app.get("/trilhas/id/:id", ensureAuthenticated, async (req, res) => {
     const id = req.params.id;
     try {
       await trilhasDAO._verifyId(id);
@@ -29,7 +30,7 @@ const trilhasController = (app, dbTrilhas) => {
     }
   });
 
-  app.post("/trilhas", async (req, res) => {
+  app.post("/trilhas", ensureAuthenticated, async (req, res) => {
     const body = req.body;
 
     try {
@@ -45,7 +46,7 @@ const trilhasController = (app, dbTrilhas) => {
     }
   });
 
-  app.put("/trilhas/id/:id", async (req, res) => {
+  app.put("/trilhas/id/:id", ensureAuthenticated, async (req, res) => {
     const body = req.body;
     const id = req.params.id;
 
@@ -63,7 +64,7 @@ const trilhasController = (app, dbTrilhas) => {
     }
   });
 
-  app.delete("/trilhas/id/:id", async (req, res) => {
+  app.delete("/trilhas/id/:id", ensureAuthenticated, async (req, res) => {
     const id = req.params.id;
 
     try {
