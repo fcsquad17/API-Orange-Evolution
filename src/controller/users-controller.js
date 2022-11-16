@@ -2,11 +2,16 @@ import UsersDAO from "../DAO/users-DAO.js";
 import Users from "../model/Users.js";
 import { validateBodyUser } from "../service/validateUsers.js";
 import ErrStatus from "../model/Error.js";
+import { hash } from "bcrypt";
+import { compare } from "bcrypt";
+import { ensureAuthenticated } from "../middleware/ensureAuth.js";
+import { genToken } from "../service/auth.js";
+import jwt from "jsonwebtoken";
 
 const usersController = (app, dbUsers) => {
   const usersDAO = new UsersDAO(dbUsers);
 
-  app.get("/usuarios", async (req, res) => {
+  app.get("/usuarios", ensureAuthenticated, async (req, res) => {
     try {
       res.status(200).json(await usersDAO.getAll());
     } catch (e) {
@@ -17,11 +22,17 @@ const usersController = (app, dbUsers) => {
     }
   });
 
-  app.get("/usuarios/id/:id", async (req, res) => {
+  app.get("/usuarios/id/:id", ensureAuthenticated, async (req, res) => {
     const id = req.params.id;
+    const { ID } = jwt.decode(req.headers.authorization);
+    console.log(id, ID);
     try {
-      await usersDAO._verifyId(id);
-      res.status(200).json(await usersDAO.getById(id));
+      if (Number(id) === ID) {
+        await usersDAO._verifyId(id);
+        res.status(200).json(await usersDAO.getById(id));
+      } else {
+        throw new Error("Não autorizado");
+      }
     } catch (e) {
       res.status(404).json({
         msg: e.message,
@@ -30,7 +41,7 @@ const usersController = (app, dbUsers) => {
     }
   });
 
-  app.get("/usuarios/email/:email", async (req, res) => {
+  app.get("/usuarios/email/:email", ensureAuthenticated, async (req, res) => {
     const email = req.params.email;
     try {
       await usersDAO._verifyEmail(email);
@@ -43,27 +54,29 @@ const usersController = (app, dbUsers) => {
     }
   });
 
-  app.get("/usuarios/trilhaPorId/:id", async (req, res) => {
-    const id = req.params.id;
+  app.get(
+    "/usuarios/trilhaPorId/:id",
+    ensureAuthenticated,
+    async (req, res) => {
+      const id = req.params.id;
+      const { ID } = jwt.decode(req.headers.authorization);
 
-    try {
-      await usersDAO._verifyId(id);
-      const trails = await usersDAO.getTrailsByUserId(id);
-      if (trails.trilhas.length !== 0) {
-        res.status(200).json(trails);
-      } else {
-        res.status(400).json({
-          msg: "O usuario não possui nenhuma trilha ou é administrador.",
+      try {
+        if (Number(id) === ID) {
+          const user = await usersDAO._verifyId(id);
+          const trails = await usersDAO.getTrailsByUserId(user.usuario.ID);
+          res.status(200).json(trails);
+        } else {
+          throw new Error("Não autorizado");
+        }
+      } catch (e) {
+        res.status(404).json({
+          msg: e.message,
           error: true,
         });
       }
-    } catch (e) {
-      res.status(404).json({
-        msg: e.message,
-        error: true,
-      });
     }
-  });
+  );
 
   app.post("/usuarios", async (req, res) => {
     const body = req.body;
@@ -71,12 +84,20 @@ const usersController = (app, dbUsers) => {
     try {
       if (validateBodyUser(...Object.values(body))) {
         const newUser = new Users(...Object.values(body));
+
         if (await usersDAO._repeatedEmail(newUser.email)) {
-          res.status(201).json(await usersDAO.postUser(newUser));
+          res.status(201).json(
+            await usersDAO.postUser({
+              nome_completo: newUser.nome_completo,
+              email: newUser.email,
+              senha: await hash(newUser.senha, 8),
+              admin: newUser.admin,
+            })
+          );
         }
       }
     } catch (e) {
-      res.status(400).json({
+      res.status(404).json({
         msg: e.message,
         error: true,
       });
@@ -89,37 +110,71 @@ const usersController = (app, dbUsers) => {
     try {
       await usersDAO._verifyEmail(email);
       const login = await usersDAO.getByEmail(email);
-      if (email !== login.usuario.EMAIL || senha !== login.usuario.SENHA) {
-        throw new ErrStatus(
-          "Email ou senha inválido!",
-          400,
-          new Error("Email ou senha inválido!")
-        );
-      }
-      res.status(200).json({
-        usuario: login.usuario,
-        msg: `Usuario ${login.usuario.NOME_COMPLETO} logado!`,
-      });
-    } catch (e) {
-      res.status(e.status).json({
-        msg: e.message,
-        error: true,
-      });
-    }
-  });
-
-  app.put("/usuarios/id/:id", async (req, res) => {
-    const id = req.params.id;
-    const body = req.body;
-
-    try {
-      if (validateBodyUser(...Object.values(body))) {
-        await usersDAO._verifyId(id);
-        const userUpdated = new Users(...Object.values(body));
-        if (await usersDAO._repeatedEmail(userUpdated.email)) {
-          res.status(200).json(await usersDAO.putUser(id, userUpdated));
+      if (senha !== login.usuario.SENHA) {
+        const passMatch = await compare(senha, login.usuario.SENHA);
+        if (!passMatch) {
+          throw new ErrStatus(
+            "Email ou senha inválido!",
+            400,
+            new Error("Email ou senha inválido!")
+          );
         }
       }
+
+      const token = genToken(login.usuario);
+
+      res.status(200).json({
+        auth: true,
+        token: token,
+        msg: `Usuario ${login.usuario.NOME_COMPLETO} logado!`,
+        usuario: {
+          ID: login.usuario.ID,
+          NOME_COMPLETO: login.usuario.NOME_COMPLETO,
+          EMAIL: login.usuario.EMAIL,
+          ADMIN: login.usuario.ADMIN,
+        },
+      });
+    } catch (e) {
+      res.status(404).json({
+        msg: e.message,
+        error: true,
+      });
+    }
+  });
+
+  app.put("/usuarios/id/:id", ensureAuthenticated, async (req, res) => {
+    const id = req.params.id;
+    const body = req.body;
+    const { ID } = jwt.decode(req.headers.authorization);
+
+    try {
+      if (Number(id) === ID) {
+        if (validateBodyUser(...Object.values(body))) {
+          const usuario = await usersDAO._verifyId(id);
+          const userUpdated = new Users(...Object.values(body));
+          if (usuario.usuario.EMAIL === userUpdated.email) {
+            res.status(200).json(await usersDAO.putUser(id, userUpdated));
+          } else if (usuario.usuario.EMAIL !== userUpdated.email) {
+            const userExist = await usersDAO.getByEmail(userUpdated.email);
+            if (userExist.usuario === undefined) {
+              res.status(200).json(await usersDAO.putUser(id, userUpdated));
+            } else {
+              res
+                .status(200)
+                .json(
+                  await usersDAO.putUser(id, {
+                    NOME_COMPLETO: userUpdated.nome_completo,
+                    EMAIL: usuario.usuario.EMAIL,
+                    SENHA: userUpdated.senha,
+                    ADMIN: userUpdated.admin,
+                  })
+                );
+            }
+          }
+        }
+      } else {
+        throw new ErrStatus("Não autorizado", 401);
+      }
     } catch (e) {
       res.status(e.status).json({
         msg: e.message,
@@ -128,12 +183,17 @@ const usersController = (app, dbUsers) => {
     }
   });
 
-  app.delete("/usuarios/id/:id", async (req, res) => {
+  app.delete("/usuarios/id/:id", ensureAuthenticated, async (req, res) => {
     const id = req.params.id;
+    const { ID } = jwt.decode(req.headers.authorization);
 
     try {
-      await usersDAO._verifyId(id);
-      res.status(200).json(await usersDAO.deleteUser(id));
+      if (Number(id) === ID) {
+        await usersDAO._verifyId(id);
+        res.status(200).json(await usersDAO.deleteUser(id));
+      } else {
+        throw new Error("Não autorizado");
+      }
     } catch (e) {
       res.status(404).json({
         msg: e.message,

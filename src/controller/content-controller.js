@@ -4,11 +4,12 @@ import { validateTrailId } from "../service/validateTrails.js";
 import { validateUserId } from "../service/validateUsers.js";
 import { validateModuleId } from "../service/validateModules.js";
 import validateBodyContent from "../service/validateContents.js";
+import { ensureAuthenticated } from "../middleware/ensureAuth.js";
 
 const contentController = (app, db) => {
   const contentDAO = new ContentDAO(db);
 
-  app.get("/conteudos/id/:id", async (req, res) => {
+  app.get("/conteudos/id/:id", ensureAuthenticated, async (req, res) => {
     const id = req.params.id;
 
     try {
@@ -21,7 +22,7 @@ const contentController = (app, db) => {
     }
   });
 
-  app.get("/conteudos/idTrilha/:id", async (req, res) => {
+  app.get("/conteudos/idTrilha/:id", ensureAuthenticated, async (req, res) => {
     const id = req.params.id;
     try {
       await validateTrailId(id);
@@ -34,7 +35,7 @@ const contentController = (app, db) => {
     }
   });
 
-  app.get("/conteudos/idModulo/:id", async (req, res) => {
+  app.get("/conteudos/idModulo/:id", ensureAuthenticated, async (req, res) => {
     const id = req.params.id;
     try {
       await validateModuleId(id);
@@ -47,35 +48,43 @@ const contentController = (app, db) => {
     }
   });
 
-  app.get("/conteudos/porIdTrilha/:idTrail", async (req, res) => {
-    const idTrail = req.params.idTrail;
+  app.get(
+    "/conteudos/porIdTrilha/:idTrail",
+    ensureAuthenticated,
+    async (req, res) => {
+      const idTrail = req.params.idTrail;
 
-    try {
-      await validateTrailId(idTrail);
-      res.status(200).json(await contentDAO.getAllContentByTrailId(idTrail));
-    } catch (e) {
-      res.status(404).json({
-        msg: e.message,
-        error: true,
-      });
+      try {
+        await validateTrailId(idTrail);
+        res.status(200).json(await contentDAO.getAllContentByTrailId(idTrail));
+      } catch (e) {
+        res.status(404).json({
+          msg: e.message,
+          error: true,
+        });
+      }
     }
-  });
+  );
 
-  app.get("/conteudos/porIdModulo/:idModule", async (req, res) => {
-    const idModule = req.params.idModule;
+  app.get(
+    "/conteudos/porIdModulo/:idModule",
+    ensureAuthenticated,
+    async (req, res) => {
+      const idModule = req.params.idModule;
 
-    try {
-      await validateModuleId(idModule);
-      res.status(200).json(await contentDAO.getByIdModule(idModule));
-    } catch (e) {
-      res.status(404).json({
-        msg: e.message,
-        error: true,
-      });
+      try {
+        await validateModuleId(idModule);
+        res.status(200).json(await contentDAO.getByIdModule(idModule));
+      } catch (e) {
+        res.status(404).json({
+          msg: e.message,
+          error: true,
+        });
+      }
     }
-  });
+  );
 
-  app.get("/usuario-conteudo", async (req, res) => {
+  app.get("/usuario-conteudo", ensureAuthenticated, async (req, res) => {
     try {
       res.status(200).json(await contentDAO.getAllUserContent());
     } catch (e) {
@@ -88,6 +97,7 @@ const contentController = (app, db) => {
 
   app.get(
     "/usuario-conteudo/conteudo-concluido/idUsuario/:idUser/idTrilha/:idTrail",
+    ensureAuthenticated,
     async (req, res) => {
       const idUser = req.params.idUser;
       const idTrail = req.params.idTrail;
@@ -114,6 +124,7 @@ const contentController = (app, db) => {
 
   app.get(
     "/usuario-conteudo/conteudo-concluido/idUsuario/:idUser/idModulo/:idModule",
+    ensureAuthenticated,
     async (req, res) => {
       const idUser = req.params.idUser;
       const idModule = req.params.idModule;
@@ -140,6 +151,7 @@ const contentController = (app, db) => {
 
   app.get(
     "/usuario-conteudo/ultimo-concluido/idUsuario/:idUser/idModulo/:idModule",
+    ensureAuthenticated,
     async (req, res) => {
       const idUser = req.params.idUser;
       const idModule = req.params.idModule;
@@ -164,7 +176,7 @@ const contentController = (app, db) => {
     }
   );
 
-  app.post("/conteudos", async (req, res) => {
+  app.post("/conteudos", ensureAuthenticated, async (req, res) => {
     const body = req.body;
 
     try {
@@ -180,7 +192,7 @@ const contentController = (app, db) => {
     }
   });
 
-  app.post("/usuario-conteudo", async (req, res) => {
+  app.post("/usuario-conteudo", ensureAuthenticated, async (req, res) => {
     const body = req.body;
     try {
       const newContent = new ContentsUsers(...Object.values(body));
@@ -203,7 +215,7 @@ const contentController = (app, db) => {
     }
   });
 
-  app.put("/conteudos/id/:id", async (req, res) => {
+  app.put("/conteudos/id/:id", ensureAuthenticated, async (req, res) => {
     const id = req.params.id;
     const body = req.body;
 
@@ -221,7 +233,7 @@ const contentController = (app, db) => {
     }
   });
 
-  app.delete("/conteudos/id/:id", async (req, res) => {
+  app.delete("/conteudos/id/:id", ensureAuthenticated, async (req, res) => {
     const id = req.params.id;
 
     try {
@@ -237,6 +249,7 @@ const contentController = (app, db) => {
 
   app.delete(
     "/usuario-conteudo/idUser/:idUser/idContent/:idContent",
+    ensureAuthenticated,
     async (req, res) => {
       const idUser = req.params.idUser;
       const idContent = req.params.idContent;
