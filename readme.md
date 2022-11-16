@@ -19,6 +19,7 @@
 - <a href="https://www.npmjs.com/package/sqlite3">SQLite</a>
 - <a href="https://jwt.io">JSON Web Tokens</a>
 - <a href="https://www.npmjs.com/package/dotenv">Dotenv</a>
+- <a href="https://www.npmjs.com/package/bcrypt">Bcrypt</a>
 
 ---
 
