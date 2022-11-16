@@ -549,6 +549,34 @@ Exemplo da resposta esperada:
 }
 ```
 
+##### <b>/usuarios/login</b>
+
+Recebe a informação de um possível usuário existente no banco de dados, valida essa informação e retorna uma resposta.
+Exemplo de corpo a ser enviado como requisição:
+
+```json
+{
+  "email": "carlos.alb12@gmail.com",
+  "senha": "@12345679"
+}
+```
+
+Exemplo da resposta esperada:
+
+```json
+{
+  "auth": true,
+  "token": "{token gerado}",
+  "msg": "Usuario Carlos Alberto Albuquerque logado!",
+  "usuario": {
+    "ID": 1,
+    "NOME_COMPLETO": "Carlos Alberto Albuquerque",
+    "EMAIL": "carlos.alb12@gmail.com",
+    "ADMIN": 0
+  }
+}
+```
+
 #### 📚Tabela Conteudos
 
 ##### <b> /conteudos</b>
