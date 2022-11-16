@@ -6,9 +6,9 @@ import contentController from "./controller/content-controller.js";
 import modulesController from "./controller/modules-controller.js";
 import * as dotenv from "dotenv";
 import dbSq from "./database/db-sqlite.js";
+dotenv.config();
 
 const app = express();
-dotenv.config();
 
 app.use(express.json());
 app.use(cors());
