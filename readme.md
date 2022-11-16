@@ -7,8 +7,6 @@
  <p>Projeto feito utilizando Node.js, o banco de dados embutido SQLITE3 e a framework Express.js</p>
 <p>Conheça a comunidade da Orange Juice e a plataforma de estudos que nos baseamos: <a href="https://digital.fcamara.com.br/orangejuice">Orange Juice</a></p>
 
-> :construction: Projeto em construção :construction:
-
 ![Logo da Orange Evolution](https://d335luupugsy2.cloudfront.net/cms/files/107693/1663161547/$2c3a91bepr3)
 
 ---
