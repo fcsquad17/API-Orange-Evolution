@@ -523,6 +523,7 @@ Exemplo da resposta esperada:
 ##### <b>/usuarios</b>
 
 Cria um usuário e insere no banco de dados.
+A senha é mandada criptografada para o banco de dados, para evitar vazamentos.
 Exemplo de corpo a ser enviado como requisição:
 
 ```json
@@ -542,7 +543,7 @@ Exemplo da resposta esperada:
   "usuario": {
     "nome_completo": "Bruno Souza",
     "email": "bruno.souza23@gmail.com",
-    "senha": "1asda269",
+    "senha": "$2b$08$wzUR0vyPgz0mGClcjbXbuetJvosngCn795KHx8AWl3OhrdvElkLoC",
     "admin": false
   },
   "error": false
