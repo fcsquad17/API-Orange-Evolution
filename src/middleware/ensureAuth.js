@@ -1,6 +1,5 @@
 import { response } from "express";
 import jsonwebtoken from "jsonwebtoken";
-import * as dotenv from "dotenv";
 
 export function ensureAuthenticated(req, res, next) {
   const authToken = req.headers.authorization;
@@ -12,9 +11,8 @@ export function ensureAuthenticated(req, res, next) {
     });
   }
 
-  const secret = dotenv.config();
   try {
-    jsonwebtoken.verify(authToken, secret.parsed.SECRET);
+    jsonwebtoken.verify(authToken, process.env.SECRET);
     next();
   } catch (e) {
     return res.status(401).json({
