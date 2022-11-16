@@ -150,10 +150,26 @@ const usersController = (app, dbUsers) => {
     try {
       if (Number(id) === ID) {
         if (validateBodyUser(...Object.values(body))) {
-          await usersDAO._verifyId(id);
+          const usuario = await usersDAO._verifyId(id);
           const userUpdated = new Users(...Object.values(body));
-          if (await usersDAO._repeatedEmail(userUpdated.email)) {
+          if (usuario.usuario.EMAIL === userUpdated.email) {
             res.status(200).json(await usersDAO.putUser(id, userUpdated));
+          } else if (usuario.usuario.EMAIL !== userUpdated.email) {
+            const userExist = await usersDAO.getByEmail(userUpdated.email);
+            if (userExist.usuario === undefined) {
+              res.status(200).json(await usersDAO.putUser(id, userUpdated));
+            } else {
+              res
+                .status(200)
+                .json(
+                  await usersDAO.putUser(id, {
+                    NOME_COMPLETO: userUpdated.nome_completo,
+                    EMAIL: usuario.usuario.EMAIL,
+                    SENHA: userUpdated.senha,
+                    ADMIN: userUpdated.admin,
+                  })
+                );
+            }
           }
         }
       } else {
