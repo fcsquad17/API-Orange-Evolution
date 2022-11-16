@@ -19,6 +19,8 @@
 - <a href="https://www.npmjs.com/">NPM</a>
 - <a href="https://expressjs.com/pt-br/">Express</a>
 - <a href="https://www.npmjs.com/package/sqlite3">SQLite</a>
+- <a href="https://jwt.io">JSON Web Tokens</a>
+- <a href="https://www.npmjs.com/package/dotenv">Dotenv</a>
 
 ---
 
@@ -57,6 +59,16 @@ npm start
 ```
 
 <p>Ao iniciar o projeto, o servidor será aberto em http://localhost:3000/, sendo 3000 a porta padrão. Caso necessário, a porta poderá ser alterada no arquivo server.js</p>
+
+---
+
+## ❗Atenção❗
+
+<h4>Na aplicação, há validações de tokens que são gerados quando o usuário é logado, cadastre um usuário antes de fazer qualquer requisição para gerar um token.</h4>
+<p>O token gerado só pode requisitar informações, na tabela usuário, do mesmo id.</p>
+<p>Caso queira fazer requisições dos usuários já existentes, utilize o login dos listados abaixo na rota GET.</p>
+
+<p>Duração do token: 30 minutos.</p>
 
 ---
 
