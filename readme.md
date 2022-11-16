@@ -73,10 +73,10 @@ npm start
 
 ## 🛣️ Rotas HTTP
 
-- [GET](#b-rota-get-b)
-- [POST](#b-rota-post-b)
-- [PUT](#b-rota-put-b)
-- [DELETE](#b-rota-delete-b)
+- [GET](#-rota-get-)
+- [POST](#-rota-post-)
+- [PUT](#-rota-put-)
+- [DELETE](#-rota-delete-)
 
 ### <b> Rota GET </b>
 
