@@ -9,15 +9,10 @@ const validateUserId = async (idUser) => {
 };
 
 const validateBodyUser = async (nome_completo, email, senha, admin) => {
-  if (
-    nome_completo &&
-    email &&
-    senha &&
-    admin !== undefined &&
-    admin !== null
-  ) {
+  try {
+    nome_completo && email && senha && admin !== undefined && admin !== null;
     return true;
-  } else {
+  } catch (e) {
     throw new ErrStatus("Há alguma informação faltando no body.", 400);
   }
 };
